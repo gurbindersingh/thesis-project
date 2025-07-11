@@ -1,4 +1,4 @@
-import { type TimerEventHook, type TimerMessage } from "./interfaces/index.ts";
+import type { TimerEventHook, TimerMessage } from "./interfaces/index.ts";
 
 /**
  * This class abstracts the creation of the web worker with the timer
