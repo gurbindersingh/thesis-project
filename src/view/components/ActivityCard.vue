@@ -1,48 +1,96 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
+const props = defineProps<{
+  activity: string;
+  initialMode?: "edit" | "check";
+}>();
+
 // prettier-ignore
-const options = ref([
+const severityOptions = ref([
   {
     label: "1",
-    description: "Low impact. I can safely do <u>more</u> than 5-6 such activities without a crash.",
+    description: "Low impact. I can safely do <em>more</em> than 5-6 such activities without a crash.",
   },
   {
     label: "2",
-    description: "Medium impact. I <u>cannot</u> safely do more than 3-6 such activities without crashing.",
+    description: "Medium impact. I <em>cannot</em> safely do more than 3-6 such activities without crashing.",
   },
   {
     label: "3",
-    description: "High impact. I <u>cannot</u> safely do more than one such activity without crashing.",
+    description: "High impact. I <em>cannot</em> safely do more than one such activity without crashing.",
   },
   {
     label: "4",
-    description: "Severe impact. I <u>cannot</u> safely do such an activity without crashing.",
+    description: "Severe impact. I <em>cannot</em> safely do such an activity without crashing.",
   },
 ]);
 
-const selected = ref(options.value[1]);
+const selectedSeverity = ref(severityOptions.value[1]);
+const isDone = ref(false);
+// const isEditMode = ref(props.initialMode && props.initialMode == "edit");
 </script>
 
 <template>
   <PCard class="activity-card">
     <template #content>
-      <div class="is-flex is-align-content-center">
-        <p class="title is-size-6 m-0">Placeholder task</p>
-        <PSelectButton
-          v-model="selected"
-          :options="options"
-          optionLabel="label"
-          size="large"
+      <div
+        class="selector mb-3 is-flex is-align-items-center is-justify-content-space-between"
+      >
+        <p class="activity title is-size-6 m-0">
+          {{ activity }}
+        </p>
+        <div
+          class="is-flex is-align-items-center is-justify-content-space-between"
         >
-        </PSelectButton>
+          <PSelectButton
+            class="done-selector"
+            v-model="isDone"
+            :options="['Yes', 'No']"
+            :optionValue="(val: string) => val === 'Yes'"
+            size="large"
+          />
+          <PSelectButton
+            class="severity-selector"
+            v-model="selectedSeverity"
+            :options="severityOptions"
+            optionLabel="label"
+            size="large"
+          >
+          </PSelectButton>
+          <PButton
+            variant="text"
+            icon="ti ti-settings"
+            severity="secondary"
+            size="large"
+          />
+          <PButton
+            variant="text"
+            icon="ti ti-check"
+            severity="secondary"
+            size="large"
+          />
+          <PButton
+            variant="text"
+            icon="ti ti-trash"
+            severity="secondary"
+            size="large"
+          />
+        </div>
       </div>
-      <p class="mb-3">
+      <hr class="my-3" />
+      <p class="description has-text-grey-light">
         <span>Description: </span>
-        <span v-html="selected.description"></span>
+        <span v-html="selectedSeverity.description"></span>
       </p>
     </template>
   </PCard>
 </template>
 
-<style lang="css"></style>
+<style lang="css">
+.activity-card {
+  .description {
+    font-size: 0.9rem;
+  }
+}
+</style>
