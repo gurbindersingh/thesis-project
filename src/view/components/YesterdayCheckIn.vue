@@ -8,7 +8,7 @@ import ActivityCard from "./ActivityCard.vue";
     <div class="activities">
       <h3 class="subtitle is-6">Did you complete these activities?</h3>
       <!--TODO: Ask user to check off the activities they managed to do yesterday.-->
-      <ActivityCard />
+      <ActivityCard activity="Work" />
     </div>
     <!-- <div class="meds"> -->
     <!--   <h3>Did you take your medications?</h3> -->
