@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 const props = defineProps<{
-  activity: string;
+  activity?: string;
   initialMode?: "edit" | "check";
 }>();
 
@@ -10,39 +10,131 @@ const props = defineProps<{
 const severityOptions = ref([
   {
     label: "1",
-    description: "Low impact. I can safely do <em>more</em> than 5-6 such activities without a crash.",
+    impact: "low",
+    severityClass: "has-text-success",
+    description: "I can safely do <em>more</em> than 5-6 such activities without a crash.",
   },
   {
     label: "2",
-    description: "Medium impact. I <em>cannot</em> safely do more than 3-6 such activities without crashing.",
+    impact: "mild",
+    severityClass: "has-text-warning",
+    description: "I <em>cannot</em> safely do more than 3-6 such activities without crashing.",
   },
   {
     label: "3",
-    description: "High impact. I <em>cannot</em> safely do more than one such activity without crashing.",
+    impact: "high",
+    severityClass: "has-text-caution",
+    description: "I <em>cannot</em> safely do more than one such activity without crashing.",
   },
   {
     label: "4",
-    description: "Severe impact. I <em>cannot</em> safely do such an activity without crashing.",
+    impact: "severe",
+    severityClass: "has-text-danger",
+    description: "I <em>cannot</em> safely do such an activity without crashing.",
   },
 ]);
+const allSuggestions = [
+  "Work",
+  "Cook",
+  "Get groceries",
+  "Doctor's visit",
+  "Return package",
+  "Go to pharmacy",
+];
 
+const localActivity = ref(props.activity ? props.activity : "");
+const isEditMode = ref(
+  (props.initialMode && props.initialMode == "edit") || !props.activity,
+);
 const selectedSeverity = ref(severityOptions.value[1]);
 const isDone = ref(false);
-// const isEditMode = ref(props.initialMode && props.initialMode == "edit");
+
+const filteredSuggestions = ref([] as string[]);
+
+const activityIsEmpty = computed(() => localActivity.value.trim().length < 1);
+
+function search(event: { query: string }) {
+  filteredSuggestions.value = allSuggestions.filter((s) =>
+    s.toLowerCase().includes(event.query.toLowerCase()),
+  );
+}
 </script>
 
 <template>
   <PCard class="activity-card">
     <template #content>
-      <div
-        class="selector mb-3 is-flex is-align-items-center is-justify-content-space-between"
-      >
-        <p class="activity title is-size-6 m-0">
-          {{ activity }}
-        </p>
-        <div
-          class="is-flex is-align-items-center is-justify-content-space-between"
+      <div class="edit-mode" v-if="isEditMode">
+        <PAutoComplete
+          class="mb-4"
+          v-model="localActivity"
+          placeholder="Activity name"
+          :emptySearchMessage="'Adding: ' + localActivity"
+          :suggestions="filteredSuggestions"
+          :invalid="activityIsEmpty"
+          completeOnFocus
+          fluid
+          @complete="search"
+        />
+        <PSelectButton
+          class="severity-selector mb-2"
+          v-model="selectedSeverity"
+          :options="severityOptions"
+          optionLabel="labelx"
+          size="large"
+          fluid
+          v-if="isEditMode"
         >
+          <template #option="slotProps">
+            <span style="width: 100%">
+              {{ slotProps.option.label }}
+            </span>
+          </template>
+        </PSelectButton>
+        <p
+          class="description mb-4"
+          :class="selectedSeverity.severityClass + '-40'"
+        >
+          <span class="mr-1 is-capitalized">{{ selectedSeverity.impact }}</span>
+          <span>impact:</span>
+          <span class="ml-1" v-html="selectedSeverity.description"></span>
+        </p>
+        <div class="is-flex">
+          <!-- <PButton -->
+          <!--   class="mr-2" -->
+          <!--   label="Cancel" -->
+          <!--   severity="secondary" -->
+          <!--   size="large" -->
+          <!--   variant="outlined" -->
+          <!--   fluid -->
+          <!--   @click="() => (isEditMode = false)" -->
+          <!-- /> -->
+          <PButton
+            label="Save"
+            severity="contrast"
+            size="large"
+            variant="outlined"
+            fluid
+            :disabled="activityIsEmpty"
+            @click="() => (isEditMode = false)"
+          />
+        </div>
+      </div>
+      <div
+        class="check-mode is-flex is-align-items-center is-justify-content-space-between"
+        v-else
+      >
+        <div>
+          <p class="activity title is-size-6 m-0">
+            {{ localActivity }}
+          </p>
+          <p class="description has-text-grey">
+            <span class="is-capitalized mr-1">{{
+              selectedSeverity.impact
+            }}</span>
+            <span>impact</span>
+          </p>
+        </div>
+        <div class="is-flex-shrink-0">
           <PSelectButton
             class="done-selector"
             v-model="isDone"
@@ -50,47 +142,32 @@ const isDone = ref(false);
             :optionValue="(val: string) => val === 'Yes'"
             size="large"
           />
-          <PSelectButton
-            class="severity-selector"
-            v-model="selectedSeverity"
-            :options="severityOptions"
-            optionLabel="label"
-            size="large"
-          >
-          </PSelectButton>
           <PButton
             variant="text"
             icon="ti ti-settings"
             severity="secondary"
             size="large"
-          />
-          <PButton
-            variant="text"
-            icon="ti ti-check"
-            severity="secondary"
-            size="large"
-          />
-          <PButton
-            variant="text"
-            icon="ti ti-trash"
-            severity="secondary"
-            size="large"
+            @click="() => (isEditMode = true)"
           />
         </div>
       </div>
-      <hr class="my-3" />
-      <p class="description has-text-grey-light">
-        <span>Description: </span>
-        <span v-html="selectedSeverity.description"></span>
-      </p>
+      <div
+        class="is-flex is-align-items-center is-justify-content-space-between"
+      ></div>
     </template>
   </PCard>
 </template>
 
 <style lang="css">
-.activity-card {
-  .description {
-    font-size: 0.9rem;
-  }
+.activity-card .description {
+  font-size: 0.9rem;
+}
+
+.has-text-caution {
+  color: hsl(23, 100%, 61%);
+}
+
+.has-text-caution-40 {
+  color: hsl(25, 100%, 45%);
 }
 </style>
