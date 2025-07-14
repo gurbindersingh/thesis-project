@@ -5,7 +5,7 @@ import GripStrengthRecords from "@/view/components/GripStrengthRecords.vue";
 
 <template>
   <div class="hand-grip-test">
-    <h1 class="title is-3 has-text-centered"></h1>
+    <h1 class="title is-size-3 has-text-centered"></h1>
     <AccurateTimer :workTime="3" :breakTime="15" />
     <GripStrengthRecords />
   </div>

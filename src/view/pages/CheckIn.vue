@@ -4,7 +4,7 @@ import YesterdayCheckIn from "../components/YesterdayCheckIn.vue";
 
 <template>
   <div id="check-in">
-    <h1 class="title is-5">Daily Check-In</h1>
+    <h1 class="title is-size-4">Daily Check-In</h1>
     <YesterdayCheckIn />
     <!--   <div class="crash"> -->
     <!--     <h2 class="title is-6">Are you having a crash?</h2> -->
