@@ -1,33 +1,35 @@
 <script setup lang="ts">
+// TODO: Use custom severity buttons if there is time.
 import { computed, ref } from "vue";
 
 const props = defineProps<{
   activity?: string;
+  severity?: number;
   initialMode?: "edit" | "check";
 }>();
 
 // prettier-ignore
 const severityOptions = ref([
   {
-    label: "1",
+    label: 1,
     impact: "low",
     severityClass: "has-text-success",
     description: "I can safely do <em>more</em> than 5-6 such activities without a crash.",
   },
   {
-    label: "2",
+    label: 2,
     impact: "mild",
     severityClass: "has-text-warning",
     description: "I <em>cannot</em> safely do more than 3-6 such activities without crashing.",
   },
   {
-    label: "3",
+    label: 3,
     impact: "high",
     severityClass: "has-text-caution",
     description: "I <em>cannot</em> safely do more than one such activity without crashing.",
   },
   {
-    label: "4",
+    label: 4,
     impact: "severe",
     severityClass: "has-text-danger",
     description: "I <em>cannot</em> safely do such an activity without crashing.",
@@ -46,7 +48,11 @@ const localActivity = ref(props.activity ? props.activity : "");
 const isEditMode = ref(
   (props.initialMode && props.initialMode == "edit") || !props.activity,
 );
-const selectedSeverity = ref(severityOptions.value[1]);
+const selectedSeverity = ref(
+  props.severity
+    ? severityOptions.value[props.severity - 1]
+    : severityOptions.value[2],
+);
 const isDone = ref(false);
 
 const filteredSuggestions = ref([] as string[]);
@@ -79,10 +85,8 @@ function search(event: { query: string }) {
           class="severity-selector mb-2"
           v-model="selectedSeverity"
           :options="severityOptions"
-          optionLabel="labelx"
           size="large"
           fluid
-          v-if="isEditMode"
         >
           <template #option="slotProps">
             <span style="width: 100%">
@@ -99,15 +103,6 @@ function search(event: { query: string }) {
           <span class="ml-1" v-html="selectedSeverity.description"></span>
         </p>
         <div class="is-flex">
-          <!-- <PButton -->
-          <!--   class="mr-2" -->
-          <!--   label="Cancel" -->
-          <!--   severity="secondary" -->
-          <!--   size="large" -->
-          <!--   variant="outlined" -->
-          <!--   fluid -->
-          <!--   @click="() => (isEditMode = false)" -->
-          <!-- /> -->
           <PButton
             label="Save"
             severity="contrast"
@@ -119,10 +114,7 @@ function search(event: { query: string }) {
           />
         </div>
       </div>
-      <div
-        class="check-mode is-flex is-align-items-center is-justify-content-space-between"
-        v-else
-      >
+      <div class="check-mode is-flex is-align-items-center" v-else>
         <div>
           <p class="activity title is-size-6 m-0">
             {{ localActivity }}
@@ -134,6 +126,14 @@ function search(event: { query: string }) {
             <span>impact</span>
           </p>
         </div>
+        <PButton
+          variant="text"
+          icon="ti ti-settings"
+          severity="secondary"
+          size="large"
+          @click="() => (isEditMode = true)"
+        />
+        <div class="spacer is-flex-grow-1"></div>
         <div class="is-flex-shrink-0">
           <PSelectButton
             class="done-selector"
@@ -141,13 +141,6 @@ function search(event: { query: string }) {
             :options="['Yes', 'No']"
             :optionValue="(val: string) => val === 'Yes'"
             size="large"
-          />
-          <PButton
-            variant="text"
-            icon="ti ti-settings"
-            severity="secondary"
-            size="large"
-            @click="() => (isEditMode = true)"
           />
         </div>
       </div>
@@ -161,6 +154,10 @@ function search(event: { query: string }) {
 <style lang="css">
 .activity-card .description {
   font-size: 0.9rem;
+}
+
+.activity-card .p-card-body {
+  padding: 0.75rem;
 }
 
 .has-text-caution {
