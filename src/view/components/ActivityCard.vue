@@ -6,6 +6,7 @@ const props = defineProps<{
   activity?: string;
   severity?: number;
   initialMode?: "edit" | "check";
+  icon: string;
 }>();
 
 // prettier-ignore
@@ -70,17 +71,24 @@ function search(event: { query: string }) {
   <PCard class="activity-card">
     <template #content>
       <div class="edit-mode" v-if="isEditMode">
-        <PAutoComplete
-          class="mb-4"
-          v-model="localActivity"
-          placeholder="Activity name"
-          :emptySearchMessage="'Adding: ' + localActivity"
-          :suggestions="filteredSuggestions"
-          :invalid="activityIsEmpty"
-          completeOnFocus
-          fluid
-          @complete="search"
-        />
+        <div class="is-flex mb-4">
+          <PButton
+            class="mr-2"
+            :icon="'ti ti-' + icon"
+            variant="outlined"
+            severity="contrast"
+          />
+          <PAutoComplete
+            class="is-flex-grow-1"
+            v-model="localActivity"
+            :emptySearchMessage="'Adding: ' + localActivity"
+            :suggestions="filteredSuggestions"
+            :invalid="activityIsEmpty"
+            completeOnFocus
+            fluid
+            @complete="search"
+          />
+        </div>
         <PSelectButton
           class="severity-selector mb-2"
           v-model="selectedSeverity"
@@ -102,19 +110,22 @@ function search(event: { query: string }) {
           <span>impact:</span>
           <span class="ml-1" v-html="selectedSeverity.description"></span>
         </p>
-        <div class="is-flex">
-          <PButton
-            label="Save"
-            severity="contrast"
-            size="large"
-            variant="outlined"
-            fluid
-            :disabled="activityIsEmpty"
-            @click="() => (isEditMode = false)"
-          />
-        </div>
+        <PButton
+          label="Save"
+          severity="contrast"
+          size="large"
+          variant="outlined"
+          fluid
+          :disabled="activityIsEmpty"
+          :onClick="() => (isEditMode = false)"
+        />
       </div>
+
       <div class="check-mode is-flex is-align-items-center" v-else>
+        <i
+          class="ti has-text-weight-bold is-size-4 mr-3"
+          :class="'ti-' + icon"
+        ></i>
         <div>
           <p class="activity title is-size-6 m-0">
             {{ localActivity }}
@@ -131,7 +142,7 @@ function search(event: { query: string }) {
           icon="ti ti-settings"
           severity="secondary"
           size="large"
-          @click="() => (isEditMode = true)"
+          :onClick="() => (isEditMode = true)"
         />
         <div class="spacer is-flex-grow-1"></div>
         <div class="is-flex-shrink-0">
