@@ -40,6 +40,14 @@ import StepsCard from "./StepsCard.vue";
         :severity="1"
         icon="bath"
       />
+      <PButton
+        label="Add activity"
+        icon="ti ti-plus"
+        variant="outlined"
+        severity="contrast"
+        rounded
+        fluid
+      />
     </div>
     <div class="meds">
       <h3 class="has-text-weight-bold is-6 mb-4">
@@ -48,6 +56,14 @@ import StepsCard from "./StepsCard.vue";
       <MedsCard class="mb-1" med="Med 1" dose="25 mg" :times="[0]" />
       <MedsCard class="mb-1" med="Med 2" dose="4.5 mg" :times="[1]" />
       <MedsCard class="mb-1" med="Med 3" dose="40 mg" :times="[0, 1, 3]" />
+      <PButton
+        label="Add med"
+        icon="ti ti-plus"
+        variant="outlined"
+        severity="contrast"
+        rounded
+        fluid
+      />
     </div>
     <div>
       <!-- <h3>Steps</h3> -->
