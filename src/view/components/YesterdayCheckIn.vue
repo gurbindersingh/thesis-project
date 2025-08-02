@@ -45,18 +45,9 @@ import StepsCard from "./StepsCard.vue";
       <h3 class="has-text-weight-bold is-6 mb-4">
         Did you take your meds yesterday?
       </h3>
-      <MedsCard
-        class="mb-1"
-        :med="{ name: 'Med 1', dose: '25 mg', times: [0] }"
-      />
-      <MedsCard
-        class="mb-1"
-        :med="{ name: 'Med 2', dose: '4.5 mg', times: [1] }"
-      />
-      <MedsCard
-        class="mb-1"
-        :med="{ name: 'Med 3', dose: '40 mg', times: [0, 1, 3] }"
-      />
+      <MedsCard class="mb-1" med="Med 1" dose="25 mg" :times="[0]" />
+      <MedsCard class="mb-1" med="Med 2" dose="4.5 mg" :times="[1]" />
+      <MedsCard class="mb-1" med="Med 3" dose="40 mg" :times="[0, 1, 3]" />
     </div>
     <div>
       <!-- <h3>Steps</h3> -->

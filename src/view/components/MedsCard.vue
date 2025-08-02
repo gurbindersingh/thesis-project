@@ -3,12 +3,38 @@
 import { computed, ref } from "vue";
 
 const props = defineProps<{
-  med: { name: string; dose: string; times: number[] };
+  med: string;
+  dose: string;
+  times: number[];
 }>();
 
-const medTimes = ["Morning", "Noon", "Evening", "Night"];
-const timeIcons = ["sunrise", "sun", "sunset", "moon"];
-const medicationList = [
+const timeOptions = [
+  {
+    order: 0,
+    label: "Morning",
+    icon: "sunrise",
+    taken: false,
+  },
+  {
+    order: 1,
+    label: "Noon",
+    icon: "sun",
+    taken: false,
+  },
+  {
+    order: 2,
+    label: "Evening",
+    icon: "sunset",
+    taken: false,
+  },
+  {
+    order: 3,
+    label: "Night",
+    icon: "moon",
+    taken: false,
+  },
+];
+const autocompleteList = [
   "Aspirin",
   "Paracetamol",
   "LDN",
@@ -17,18 +43,17 @@ const medicationList = [
   "Vitamin B",
 ];
 
-const localMed = ref(props.med);
-const filteredSuggestions = ref([] as string[]);
-const takenMeds = ref(
-  props.med.times.map((t) => ({ time: t, takenMeds: false })),
-);
-const selectedTimes = ref(props.med.times.map((t) => medTimes[t]));
 const isEditMode = ref(false);
 
-const activityIsEmpty = computed(() => localMed.value.name.trim().length < 1);
+const medName = ref(props.med);
+const dose = ref(props.dose);
+const filteredSuggestions = ref([] as string[]);
+const selectedTimes = ref(props.times.map((t) => timeOptions[t]));
+
+const medNameIsEmpty = computed(() => medName.value.trim().length < 1);
 
 function search(event: { query: string }) {
-  filteredSuggestions.value = medicationList.filter((s) =>
+  filteredSuggestions.value = autocompleteList.filter((s) =>
     s.toLowerCase().includes(event.query.toLowerCase()),
   );
 }
@@ -43,29 +68,25 @@ function search(event: { query: string }) {
         >
           <PAutoComplete
             class="is-flex-grow-1 mr-2"
-            v-model="localMed.name"
-            :emptySearchMessage="'Adding: ' + localMed.name"
+            v-model="medName"
+            :emptySearchMessage="'Adding: ' + medName"
             :suggestions="filteredSuggestions"
-            :invalid="activityIsEmpty"
+            :invalid="medNameIsEmpty"
             completeOnFocus
             fluid
             @complete="search"
           />
-          <PInputText v-model="localMed.dose" style="width: 40%" />
+          <PInputText v-model="dose" style="width: 40%" />
         </div>
         <PSelectButton
-          class="severity-selector mb-4"
+          class="time-selector mb-4"
           v-model="selectedTimes"
-          :options="medTimes"
+          :options="timeOptions"
+          optionLabel="label"
           multiple
           size="large"
           fluid
         >
-          <template #option="slotProps">
-            <span style="width: 100%">
-              {{ slotProps.option }}
-            </span>
-          </template>
         </PSelectButton>
         <p class="description is-italic mb-3">
           Note: This will only change this entry. To make a permanent change,
@@ -83,8 +104,8 @@ function search(event: { query: string }) {
       <div class="check-mode" v-else>
         <div class="is-flex is-align-items-center mb-4">
           <p class="med title is-size-6 m-0">
-            <span class="name mr-2">{{ localMed.name }}</span>
-            <span class="dose">({{ localMed.dose }})</span>
+            <span class="name mr-2">{{ med }}</span>
+            <span class="dose">({{ dose }})</span>
           </p>
           <PButton
             class="p-0"
@@ -95,17 +116,20 @@ function search(event: { query: string }) {
             :onClick="() => (isEditMode = true)"
           />
         </div>
-        <template v-for="(time, index) in localMed.times" :key="time">
+        <template
+          v-for="time in selectedTimes.sort((a, b) => a.order - b.order)"
+          :key="time.order"
+        >
           <div>
             <div class="is-flex is-align-items-center mb-2">
               <i
                 class="ti has-text-bold is-size-5 mr-2"
-                :class="'ti-' + timeIcons[time]"
+                :class="'ti-' + time.icon"
               ></i>
-              <p class="time is-flex-grow-1">{{ medTimes[time] }}</p>
+              <p class="time is-flex-grow-1">{{ time.label }}</p>
               <PSelectButton
                 class="done-selector"
-                v-model="takenMeds[index].takenMeds"
+                v-model="time.taken"
                 :options="['Yes', 'No']"
                 :optionValue="(val: string) => val === 'Yes'"
                 size="large"
