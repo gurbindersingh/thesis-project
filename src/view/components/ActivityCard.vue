@@ -5,8 +5,10 @@ import { computed, ref } from "vue";
 const props = defineProps<{
   activity?: string;
   severity?: number;
-  initialMode?: "edit" | "check";
+  isEditMode?: boolean;
   icon: string;
+  isDone?: boolean;
+  onDelete?: () => void;
 }>();
 
 // prettier-ignore
@@ -46,15 +48,13 @@ const allSuggestions = [
 ];
 
 const localActivity = ref(props.activity ? props.activity : "");
-const isEditMode = ref(
-  (props.initialMode && props.initialMode == "edit") || !props.activity,
-);
+const isEditMode = ref(props.isEditMode || !props.activity);
 const selectedSeverity = ref(
   props.severity
     ? severityOptions.value[props.severity - 1]
     : severityOptions.value[2],
 );
-const isDone = ref(false);
+const isDone = ref(props.isDone);
 
 const filteredSuggestions = ref([] as string[]);
 
@@ -88,7 +88,9 @@ function search(event: { query: string }) {
             fluid
             @complete="search"
           />
+          <PButton icon="ti ti-trash" variant="text" severity="contrast" />
         </div>
+
         <PSelectButton
           class="severity-selector mb-2"
           v-model="selectedSeverity"

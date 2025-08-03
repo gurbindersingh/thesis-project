@@ -1,7 +1,63 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import ActivityCard from "./ActivityCard.vue";
 import MedsCard from "./MedsCard.vue";
 import StepsCard from "./StepsCard.vue";
+
+const activities = ref([
+  {
+    activity: "Activity 1",
+    severity: 3,
+    isEditMode: false,
+    isDone: true,
+    icon: "briefcase",
+  },
+  {
+    activity: "Activity 2",
+    severity: 2,
+    isEditMode: false,
+    isDone: false,
+    icon: "chef-hat",
+  },
+  {
+    activity: "Activity 3",
+    severity: 2,
+    isEditMode: false,
+    isDone: false,
+    icon: "wash",
+  },
+  {
+    activity: "Activity 4",
+    severity: 1,
+    isEditMode: false,
+    isDone: true,
+    icon: "bath",
+  },
+]);
+
+const meds = ref([
+  {
+    name: "Med 1",
+    isEditMode: false,
+    taken: [true],
+    dose: "25 ml",
+    times: [0],
+  },
+  {
+    name: "Med 2",
+    isEditMode: false,
+    taken: [true, false],
+    dose: "4.5 mg",
+    times: [0, 2],
+  },
+  {
+    name: "Med 3",
+    isEditMode: false,
+    taken: [true, true, false, false],
+    dose: "2 g/5 ml",
+    times: [0, 1, 2, 3],
+  },
+]);
 </script>
 
 <template>
@@ -16,53 +72,66 @@ import StepsCard from "./StepsCard.vue";
         Did you complete these activities?
       </h3>
       <!--TODO: Ask user to check off the activities they managed to do yesterday.-->
-      <ActivityCard
-        class="mb-1"
-        activity="Activity 1"
-        :severity="3"
-        icon="briefcase"
-      />
-      <ActivityCard
-        class="mb-1"
-        activity="Activity 2"
-        :severity="2"
-        icon="chef-hat"
-      />
-      <ActivityCard
-        class="mb-1"
-        activity="Activity 3"
-        :severity="2"
-        icon="wash"
-      />
-      <ActivityCard
-        class="mb-1"
-        activity="Activity 4"
-        :severity="1"
-        icon="bath"
-      />
+      <template v-for="activity in activities" :key="activity.activity">
+        <ActivityCard
+          class="mb-1"
+          :activity="activity.activity"
+          :severity="activity.severity"
+          :icon="activity.icon"
+          :is-edit-mode="activity.isEditMode"
+          :is-done="activity.isDone"
+        />
+      </template>
       <PButton
+        class="mt-2"
         label="Add activity"
         icon="ti ti-plus"
         variant="outlined"
-        severity="contrast"
         rounded
         fluid
+        :onClick="
+          () =>
+            activities.push({
+              activity: '',
+              severity: 2,
+              isEditMode: true,
+              isDone: false,
+              icon: 'briefcase',
+            })
+        "
       />
     </div>
     <div class="meds">
       <h3 class="has-text-weight-bold is-6 mb-4">
         Did you take your meds yesterday?
       </h3>
-      <MedsCard class="mb-1" med="Med 1" dose="25 mg" :times="[0]" />
-      <MedsCard class="mb-1" med="Med 2" dose="4.5 mg" :times="[1]" />
-      <MedsCard class="mb-1" med="Med 3" dose="40 mg" :times="[0, 1, 3]" />
+      <template v-for="med in meds" :key="med.name">
+        <MedsCard
+          class="mb-1"
+          :med="med.name"
+          :dose="med.dose"
+          :times="med.times"
+          :is-edit-mode="med.isEditMode"
+          :taken="med.taken"
+        />
+      </template>
       <PButton
+        class="mt-2"
         label="Add med"
         icon="ti ti-plus"
         variant="outlined"
-        severity="contrast"
         rounded
         fluid
+        :onClick="
+          () =>
+            meds.push({
+              name: '',
+              dose: '',
+              times: [],
+              isEditMode: true,
+              taken: [],
+            })
+        "
       />
     </div>
     <div>

@@ -1,11 +1,14 @@
 <script setup lang="ts">
 // TODO: Use custom severity buttons if there is time.
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 const props = defineProps<{
   med: string;
   dose: string;
   times: number[];
+  taken: boolean[];
+  isEditMode: boolean;
+  onDelete?: () => void;
 }>();
 
 const timeOptions = [
@@ -13,25 +16,25 @@ const timeOptions = [
     order: 0,
     label: "Morning",
     icon: "sunrise",
-    taken: false,
+    taken: props.taken[0] || false,
   },
   {
     order: 1,
     label: "Noon",
     icon: "sun",
-    taken: false,
+    taken: props.taken[1] || false,
   },
   {
     order: 2,
     label: "Evening",
     icon: "sunset",
-    taken: false,
+    taken: props.taken[2] || false,
   },
   {
     order: 3,
     label: "Night",
     icon: "moon",
-    taken: false,
+    taken: props.taken[3] || false,
   },
 ];
 const autocompleteList = [
@@ -43,7 +46,7 @@ const autocompleteList = [
   "Vitamin B",
 ];
 
-const isEditMode = ref(false);
+const isEditMode = ref(props.isEditMode);
 
 const medName = ref(props.med);
 const dose = ref(props.dose);
@@ -57,6 +60,12 @@ function search(event: { query: string }) {
     s.toLowerCase().includes(event.query.toLowerCase()),
   );
 }
+
+onMounted(() => {
+  for (let i = 0; i < props.times.length; i++) {
+    timeOptions[props.times[i]].taken = props.taken[i];
+  }
+});
 </script>
 
 <template>
@@ -69,6 +78,7 @@ function search(event: { query: string }) {
           <PAutoComplete
             class="is-flex-grow-1 mr-2"
             v-model="medName"
+            placeholder="Medication name"
             :emptySearchMessage="'Adding: ' + medName"
             :suggestions="filteredSuggestions"
             :invalid="medNameIsEmpty"
@@ -76,7 +86,8 @@ function search(event: { query: string }) {
             fluid
             @complete="search"
           />
-          <PInputText v-model="dose" style="width: 40%" />
+          <PInputText v-model="dose" placeholder="Dose" style="width: 40%" />
+          <PButton icon="ti ti-trash" variant="text" severity="contrast" />
         </div>
         <PSelectButton
           class="time-selector mb-4"
@@ -104,7 +115,7 @@ function search(event: { query: string }) {
       <div class="check-mode" v-else>
         <div class="is-flex is-align-items-center mb-4">
           <p class="med title is-size-6 m-0">
-            <span class="name mr-2">{{ med }}</span>
+            <span class="name mr-2">{{ medName }}</span>
             <span class="dose">({{ dose }})</span>
           </p>
           <PButton
