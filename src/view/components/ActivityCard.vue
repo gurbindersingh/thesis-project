@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // TODO: Use custom severity buttons if there is time.
+import { createHslColorSteps } from "@/services/color-steps";
 import { computed, ref } from "vue";
 
 const props = defineProps<{
@@ -14,27 +15,23 @@ const props = defineProps<{
 // prettier-ignore
 const severityOptions = ref([
   {
-    label: 1,
+    value: 1,
     impact: "low",
-    severityClass: "has-text-success",
     description: "I can safely do <em>more</em> than 5-6 such activities without a crash.",
   },
   {
-    label: 2,
+    value: 2,
     impact: "mild",
-    severityClass: "has-text-warning",
     description: "I <em>cannot</em> safely do more than 3-6 such activities without crashing.",
   },
   {
-    label: 3,
+    value: 3,
     impact: "high",
-    severityClass: "has-text-caution",
     description: "I <em>cannot</em> safely do more than one such activity without crashing.",
   },
   {
-    label: 4,
+    value: 4,
     impact: "severe",
-    severityClass: "has-text-danger",
     description: "I <em>cannot</em> safely do such an activity without crashing.",
   },
 ]);
@@ -46,6 +43,7 @@ const allSuggestions = [
   "Return package",
   "Go to pharmacy",
 ];
+const colorValues = createHslColorSteps(0, 120, 4).reverse();
 
 const localActivity = ref(props.activity ? props.activity : "");
 const isEditMode = ref(props.isEditMode || !props.activity);
@@ -91,31 +89,33 @@ function search(event: { query: string }) {
           <PButton icon="ti ti-trash" variant="text" severity="contrast" />
         </div>
 
-        <PSelectButton
-          class="severity-selector mb-2"
-          v-model="selectedSeverity"
-          :options="severityOptions"
-          size="large"
-          fluid
-        >
-          <template #option="slotProps">
-            <span style="width: 100%">
-              {{ slotProps.option.label }}
-            </span>
-          </template>
-        </PSelectButton>
         <p
-          class="description mb-4"
-          :class="selectedSeverity.severityClass + '-40'"
+          class="description mb-2"
+          :style="{
+            color: `hsl(${colorValues[selectedSeverity.value - 1]} 50 50)`,
+          }"
         >
           <span class="mr-1 is-capitalized">{{ selectedSeverity.impact }}</span>
           <span>impact:</span>
           <span class="ml-1" v-html="selectedSeverity.description"></span>
         </p>
+        <PSelectButton
+          class="severity-selector mb-4"
+          v-model="selectedSeverity"
+          :options="severityOptions"
+          optionLabel="value"
+          size="large"
+          fluid
+        >
+          <!-- <template #option="slotProps"> -->
+          <!--   <span style="width: 100%"> -->
+          <!--     {{ slotProps.option.value }} -->
+          <!--   </span> -->
+          <!-- </template> -->
+        </PSelectButton>
         <PButton
           label="Save"
           severity="contrast"
-          size="large"
           variant="outlined"
           fluid
           :disabled="activityIsEmpty"
@@ -129,7 +129,7 @@ function search(event: { query: string }) {
           :class="'ti-' + icon"
         ></i>
         <div>
-          <p class="activity title is-size-6 m-0">
+          <p class="activity title has-text-weight-medium is-size-6 m-0">
             {{ localActivity }}
           </p>
           <p class="description has-text-grey">
@@ -163,21 +163,3 @@ function search(event: { query: string }) {
     </template>
   </PCard>
 </template>
-
-<style lang="css">
-.activity-card .description {
-  font-size: 0.9rem;
-}
-
-.activity-card .p-card-body {
-  padding: 0.75rem;
-}
-
-.has-text-caution {
-  color: hsl(23, 100%, 61%);
-}
-
-.has-text-caution-40 {
-  color: hsl(25, 100%, 45%);
-}
-</style>

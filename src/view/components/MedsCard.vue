@@ -107,6 +107,7 @@ onMounted(() => {
           label="Save"
           variant="outlined"
           severity="contrast"
+          rounded
           fluid
           :onClick="() => (isEditMode = false)"
         />
@@ -114,7 +115,7 @@ onMounted(() => {
 
       <div class="check-mode" v-else>
         <div class="is-flex is-align-items-center mb-4">
-          <p class="med title is-size-6 m-0">
+          <p class="med title has-text-weight-medium is-size-6 m-0">
             <span class="name mr-2">{{ medName }}</span>
             <span class="dose">({{ dose }})</span>
           </p>
@@ -152,13 +153,3 @@ onMounted(() => {
     </template>
   </PCard>
 </template>
-
-<style lang="css">
-.med-card .p-card-body {
-  padding: 0.75rem;
-}
-
-.med-card .description {
-  font-size: 0.9rem;
-}
-</style>

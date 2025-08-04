@@ -3,6 +3,7 @@ import { ref } from "vue";
 import ActivityCard from "./ActivityCard.vue";
 import MedsCard from "./MedsCard.vue";
 import StepsCard from "./StepsCard.vue";
+import SymptomsCard from "./SymptomsCard.vue";
 
 const activities = ref([
   {
@@ -62,15 +63,13 @@ const meds = ref([
 
 <template>
   <div id="yesterday">
-    <h2 class="title is-5">Yesterday</h2>
+    <h2 class="title is-4 has-text-primary">Yesterday</h2>
     <div class="steps">
-      <h3 class="has-text-weight-bold is-6 mb-2">Total steps</h3>
+      <h3 class="subtitle is-6 mb-2">Total steps</h3>
       <StepsCard />
     </div>
     <div class="activities my-5">
-      <h3 class="is-6 mb-2 has-text-weight-bold">
-        Did you complete these activities?
-      </h3>
+      <h3 class="subtitle is-6 mb-2">Did you complete these activities?</h3>
       <!--TODO: Ask user to check off the activities they managed to do yesterday.-->
       <template v-for="activity in activities" :key="activity.activity">
         <ActivityCard
@@ -87,6 +86,7 @@ const meds = ref([
         label="Add activity"
         icon="ti ti-plus"
         variant="outlined"
+        size="large"
         rounded
         fluid
         :onClick="
@@ -101,10 +101,8 @@ const meds = ref([
         "
       />
     </div>
-    <div class="meds">
-      <h3 class="has-text-weight-bold is-6 mb-4">
-        Did you take your meds yesterday?
-      </h3>
+    <div class="meds my-5">
+      <h3 class="subtitle is-6 mb-2">Did you take your meds/supplements?</h3>
       <template v-for="med in meds" :key="med.name">
         <MedsCard
           class="mb-1"
@@ -120,6 +118,7 @@ const meds = ref([
         label="Add med"
         icon="ti ti-plus"
         variant="outlined"
+        size="large"
         rounded
         fluid
         :onClick="
@@ -134,16 +133,19 @@ const meds = ref([
         "
       />
     </div>
-    <div>
-      <!-- <h3>Steps</h3> -->
+    <div class="symptoms">
+      <h3 class="subtitle is-6 mb-2">What symptoms did you have?</h3>
+      <SymptomsCard />
     </div>
-    <!-- <div class="meds"> -->
-    <!--   <h3>Did you take your medications?</h3> -->
-    <!--   <PCard> -->
-    <!--     <template #content> -->
-    <!--       <p>Test</p> -->
-    <!--     </template> -->
-    <!--   </PCard> -->
-    <!-- </div> -->
   </div>
 </template>
+
+<style lang="css">
+#yesterday .p-card-body {
+  padding: 0.75rem;
+}
+
+#yesterday .description {
+  font-size: 0.9rem;
+}
+</style>
