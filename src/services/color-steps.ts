@@ -1,16 +1,18 @@
-export function createHslColorSteps(
-  start: number,
-  end: number,
-  steps: number,
-): number[] {
-  // In a real project we'd add some error handling here to make sure that the
-  // input values are within the acceptable HSL range.
-  const stepSize = (end - start) / (steps - 1);
-  const values = [];
+export function createColorSteps(start: number, end: number, steps: number) {
+  if (end <= start)
+    throw Error("The end value must be larger than the start value");
 
-  for (let i = start; i <= end && i <= 360; i += stepSize) {
-    console.log(i);
-    values.push(i);
-  }
-  return values;
+  // OKLCH is a new color model in CSS that keeps the perceived lightness value
+  // consistent across hues.
+  const colors = Array.from({ length: steps }, (_, i) => i)
+    .map((i) => i / (steps - 1))
+    .map((fraction) => start + (end - start) * fraction)
+    .map((hue) => Math.round(hue * 10) / 10)
+    .map((hue) => [65, 0.35, hue, 50, 50])
+    .map((values) => ({
+      raw: values,
+      css: `oklch(${values[0]}% ${values[1]} ${values[2]} / 1)`,
+    }));
+  console.log(colors);
+  return colors;
 }
