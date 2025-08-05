@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // TODO: Use custom severity buttons if there is time.
-import { createHslColorSteps } from "@/services/color-steps";
+import { createColorSteps } from "@/services/color-steps";
 import { computed, ref } from "vue";
 
 const props = defineProps<{
@@ -27,12 +27,12 @@ const severityOptions = ref([
   {
     value: 3,
     impact: "high",
-    description: "I <em>cannot</em> safely do more than one such activity without crashing.",
+    description: "I <em>cannot</em> safely do more than one such activity a day without crashing.",
   },
   {
     value: 4,
     impact: "severe",
-    description: "I <em>cannot</em> safely do such an activity without crashing.",
+    description: "I <em>cannot</em> safely do such an activity a day without crashing.",
   },
 ]);
 const allSuggestions = [
@@ -43,7 +43,7 @@ const allSuggestions = [
   "Return package",
   "Go to pharmacy",
 ];
-const colorValues = createHslColorSteps(0, 120, 4).reverse();
+const colorValues = createColorSteps(0, 120, 4).reverse();
 
 const localActivity = ref(props.activity ? props.activity : "");
 const isEditMode = ref(props.isEditMode || !props.activity);
@@ -79,7 +79,7 @@ function search(event: { query: string }) {
           <PAutoComplete
             class="is-flex-grow-1"
             v-model="localActivity"
-            :emptySearchMessage="'Adding: ' + localActivity"
+            :emptySearchMessage="'Add new activity: ' + localActivity"
             :suggestions="filteredSuggestions"
             :invalid="activityIsEmpty"
             completeOnFocus
@@ -92,7 +92,7 @@ function search(event: { query: string }) {
         <p
           class="description mb-2"
           :style="{
-            color: `hsl(${colorValues[selectedSeverity.value - 1]} 50 50)`,
+            color: colorValues[selectedSeverity.value - 1].css,
           }"
         >
           <span class="mr-1 is-capitalized">{{ selectedSeverity.impact }}</span>
@@ -115,9 +115,9 @@ function search(event: { query: string }) {
         </PSelectButton>
         <PButton
           label="Save"
-          severity="contrast"
-          variant="outlined"
+          severity="secondary"
           fluid
+          rounded
           :disabled="activityIsEmpty"
           :onClick="() => (isEditMode = false)"
         />

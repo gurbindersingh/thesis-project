@@ -59,21 +59,28 @@ const meds = ref([
     times: [0, 1, 2, 3],
   },
 ]);
+
+const symptoms = ref([
+  {
+    symptom: "Brainfog",
+    severity: 4,
+    isEditMode: true,
+  },
+]);
 </script>
 
 <template>
   <div id="yesterday">
     <h2 class="title is-4 has-text-primary">Yesterday</h2>
     <div class="steps">
-      <h3 class="subtitle is-6 mb-2">Total steps</h3>
+      <h3 class="subtitle is-6">Total steps</h3>
       <StepsCard />
     </div>
-    <div class="activities my-5">
-      <h3 class="subtitle is-6 mb-2">Did you complete these activities?</h3>
+    <div class="activities">
+      <h3 class="subtitle is-6">Did you complete these activities?</h3>
       <!--TODO: Ask user to check off the activities they managed to do yesterday.-->
       <template v-for="activity in activities" :key="activity.activity">
         <ActivityCard
-          class="mb-1"
           :activity="activity.activity"
           :severity="activity.severity"
           :icon="activity.icon"
@@ -82,7 +89,6 @@ const meds = ref([
         />
       </template>
       <PButton
-        class="mt-2"
         label="Add activity"
         icon="ti ti-plus"
         variant="outlined"
@@ -101,11 +107,10 @@ const meds = ref([
         "
       />
     </div>
-    <div class="meds my-5">
-      <h3 class="subtitle is-6 mb-2">Did you take your meds/supplements?</h3>
+    <div class="meds">
+      <h3 class="subtitle is-6">Did you take your meds/supplements?</h3>
       <template v-for="med in meds" :key="med.name">
         <MedsCard
-          class="mb-1"
           :med="med.name"
           :dose="med.dose"
           :times="med.times"
@@ -114,8 +119,7 @@ const meds = ref([
         />
       </template>
       <PButton
-        class="mt-2"
-        label="Add med"
+        label="Add med/supplement"
         icon="ti ti-plus"
         variant="outlined"
         size="large"
@@ -134,18 +138,52 @@ const meds = ref([
       />
     </div>
     <div class="symptoms">
-      <h3 class="subtitle is-6 mb-2">What symptoms did you have?</h3>
-      <SymptomsCard />
+      <h3 class="subtitle is-6" style="color: oklch(50% 0.4 98)">
+        What symptoms did you have?
+      </h3>
+      <template v-for="symptom in symptoms" :key="symptom.symptom">
+        <SymptomsCard
+          :symptom="symptom.symptom"
+          :severity="symptom.severity"
+          :is-edit-mode="symptom.isEditMode"
+        />
+      </template>
+      <PButton
+        label="Add symptom"
+        icon="ti ti-plus"
+        variant="outlined"
+        size="large"
+        rounded
+        fluid
+        :onClick="
+          () =>
+            symptoms.push({
+              symptom: '',
+              severity: 2,
+              isEditMode: true,
+            })
+        "
+      />
     </div>
   </div>
 </template>
 
 <style lang="css">
+#yesterday .p-card {
+  margin-bottom: 0.5rem;
+}
+
+#yesterday .subtitle {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
 #yesterday .p-card-body {
   padding: 0.75rem;
 }
 
 #yesterday .description {
   font-size: 0.9rem;
+  letter-spacing: 0.05rem;
 }
 </style>

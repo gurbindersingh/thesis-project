@@ -79,7 +79,7 @@ onMounted(() => {
             class="is-flex-grow-1 mr-2"
             v-model="medName"
             placeholder="Medication name"
-            :emptySearchMessage="'Adding: ' + medName"
+            :emptySearchMessage="'Adding new med: ' + medName"
             :suggestions="filteredSuggestions"
             :invalid="medNameIsEmpty"
             completeOnFocus
@@ -105,8 +105,7 @@ onMounted(() => {
         </p>
         <PButton
           label="Save"
-          variant="outlined"
-          severity="contrast"
+          severity="secondary"
           rounded
           fluid
           :onClick="() => (isEditMode = false)"
