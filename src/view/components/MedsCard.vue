@@ -107,6 +107,7 @@ onMounted(() => {
           severity="secondary"
           rounded
           fluid
+          :disabled="medNameIsEmpty"
           :onClick="() => (isEditMode = false)"
         />
       </div>
