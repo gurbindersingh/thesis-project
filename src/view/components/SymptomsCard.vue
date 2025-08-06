@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createColorSteps } from "@/services/color-steps";
+import { redToGreenSteps } from "@/services/color-steps";
 import { computed, ref } from "vue";
 
 const props = defineProps<{
@@ -34,8 +34,7 @@ const severityOptions = [
   },
 ];
 const allSuggestions = ["Headache", "Neck pain", "Backpain", "Brainfog"];
-const colorValues = createColorSteps(77, 142, 5).reverse();
-// const colorValues = createColorSteps(0, 120, 5).reverse();
+const colorValues = redToGreenSteps(5).reverse();
 
 const isEditMode = ref(props.isEditMode);
 const symptom = ref(props.symptom ? props.symptom : "");
@@ -66,36 +65,38 @@ function search(event: { query: string }) {
             fluid
             @complete="search"
           />
-          <PButton icon="ti ti-trash" variant="text" severity="contrast" />
+          <PButton
+            severity="secondary"
+            variant="text"
+            icon="ti ti-trash"
+            rounded
+          />
+          <PButton
+            severity="secondary"
+            icon="ti ti-check"
+            rounded
+            :disabled="symptomIsEmpty"
+            :onClick="() => (isEditMode = false)"
+          />
         </div>
-        <PSelectButton
-          class="severity-selector mb-2"
-          v-model="selectedSeverity"
-          :options="severityOptions"
-          optionLabel="value"
-          size="large"
-          fluid
-        />
-        <p
-          class="description mb-2"
-          :style="{
-            color: colorValues[selectedSeverity.value - 1].css,
-          }"
-        >
-          <span>Explanation:</span>
-          <span class="ml-1" v-html="selectedSeverity.description"></span>
-        </p>
-        <PButton
-          label="Save"
-          severity="secondary"
-          fluid
-          rounded
-          :disabled="symptomIsEmpty"
-          :onClick="() => (isEditMode = false)"
-        />
+        <hr class="my-3" />
+        <div class="severity-descriptions">
+          <template v-for="severity in severityOptions" :key="severity.value">
+            <p
+              class="description my-2"
+              :style="{ color: colorValues[severity.value - 1].css }"
+            >
+              <span class="mr-2">Severity {{ severity.value }}:</span
+              ><span>{{ severity.description }}</span>
+            </p>
+          </template>
+        </div>
       </div>
       <div class="show-mode is-flex is-align-items-center" v-else>
-        <p class="activity title has-text-weight-medium is-size-6 m-0">
+        <p
+          class="activity title has-text-weight-medium is-size-6 m-0"
+          style="min-width: 5rem"
+        >
           {{ symptom }}
         </p>
         <PButton
@@ -106,12 +107,15 @@ function search(event: { query: string }) {
           :onClick="() => (isEditMode = true)"
         />
         <div class="spacer is-flex-grow-1"></div>
-        <p class="description has-text-grey">
-          <span class="is-capitalized mr-1"
-            >Severity: {{ selectedSeverity.value }}/5</span
-          >
-        </p>
+        <PSelectButton
+          class="severity-selector"
+          v-model="selectedSeverity"
+          :options="severityOptions"
+          optionLabel="value"
+        />
       </div>
     </template>
   </PCard>
 </template>
+
+<style lang="css"></style>
