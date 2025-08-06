@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // TODO: Use custom severity buttons if there is time.
-import { createColorSteps } from "@/services/color-steps";
+import { redToGreenSteps } from "@/services/color-steps";
 import { computed, ref } from "vue";
 
 const props = defineProps<{
@@ -43,7 +43,7 @@ const allSuggestions = [
   "Return package",
   "Go to pharmacy",
 ];
-const colorValues = createColorSteps(0, 120, 4).reverse();
+const colorValues = redToGreenSteps(4).reverse();
 
 const localActivity = ref(props.activity ? props.activity : "");
 const isEditMode = ref(props.isEditMode || !props.activity);
@@ -104,15 +104,8 @@ function search(event: { query: string }) {
           v-model="selectedSeverity"
           :options="severityOptions"
           optionLabel="value"
-          size="large"
           fluid
-        >
-          <!-- <template #option="slotProps"> -->
-          <!--   <span style="width: 100%"> -->
-          <!--     {{ slotProps.option.value }} -->
-          <!--   </span> -->
-          <!-- </template> -->
-        </PSelectButton>
+        />
         <PButton
           label="Save"
           severity="secondary"
@@ -129,7 +122,10 @@ function search(event: { query: string }) {
           :class="'ti-' + icon"
         ></i>
         <div>
-          <p class="activity title has-text-weight-medium is-size-6 m-0">
+          <p
+            class="activity title has-text-weight-medium is-size-6 m-0"
+            style="min-width: 6rem"
+          >
             {{ localActivity }}
           </p>
           <p class="description has-text-grey">
@@ -153,7 +149,6 @@ function search(event: { query: string }) {
             v-model="isDone"
             :options="['Yes', 'No']"
             :optionValue="(val: string) => val === 'Yes'"
-            size="large"
           />
         </div>
       </div>

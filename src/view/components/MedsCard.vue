@@ -95,7 +95,6 @@ onMounted(() => {
           :options="timeOptions"
           optionLabel="label"
           multiple
-          size="large"
           fluid
         >
         </PSelectButton>
@@ -112,7 +111,7 @@ onMounted(() => {
         />
       </div>
 
-      <div class="check-mode" v-else>
+      <div class="show-mode" v-else>
         <div class="is-flex is-align-items-center mb-4">
           <p class="med title has-text-weight-medium is-size-6 m-0">
             <span class="name mr-2">{{ medName }}</span>
@@ -143,7 +142,6 @@ onMounted(() => {
                 v-model="time.taken"
                 :options="['Yes', 'No']"
                 :optionValue="(val: string) => val === 'Yes'"
-                size="large"
               />
             </div>
           </div>

@@ -24,3 +24,21 @@
 .reset-icon {
   transform: rotate(180deg);
 }
+
+#check-in .p-card {
+  margin-bottom: 0.5rem;
+}
+
+#check-in .subtitle {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#check-in .p-card-body {
+  padding: 0.75rem;
+}
+
+#check-in .description {
+  font-size: 0.9rem;
+  letter-spacing: 0.03rem;
+}

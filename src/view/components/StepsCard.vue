@@ -2,18 +2,20 @@
 import { ref } from "vue";
 
 const isEditMode = ref(false);
-
 const stepCount = ref(1204);
+const time = new Date().toLocaleTimeString([], {
+  hour: "2-digit",
+  minute: "2-digit",
+});
 </script>
 
 <template>
   <PCard class="activity-card">
     <template #content>
       <div class="is-flex is-align-items-center">
-        <i class="ti ti-walk has-text-weight-bold is-size-4 mr-2" />
+        <i class="ti ti-walk has-text-weight-bold is-size-4 mr-5" />
         <PInputNumber v-model="stepCount" v-if="isEditMode" />
-        <p class="is-size-5" v-else>{{ stepCount }}</p>
-        <div class="space is-flex-grow-1"></div>
+        <p class="has-text-weight-semibold" v-else>{{ stepCount }}</p>
         <PButton
           variant="text"
           icon="ti ti-check"
@@ -30,6 +32,12 @@ const stepCount = ref(1204);
           :onClick="() => (isEditMode = true)"
           v-else
         />
+        <div class="spacer is-flex-grow-1"></div>
+        <p class="description has-text-grey">
+          <span>Last checked: </span>
+          <span>{{ time }}</span>
+          <PButton icon="ti ti-refresh" variant="text" severity="secondary" />
+        </p>
       </div>
     </template>
   </PCard>

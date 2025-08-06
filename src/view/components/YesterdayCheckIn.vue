@@ -4,6 +4,7 @@ import ActivityCard from "./ActivityCard.vue";
 import MedsCard from "./MedsCard.vue";
 import StepsCard from "./StepsCard.vue";
 import SymptomsCard from "./SymptomsCard.vue";
+import SleepCard from "./SleepCard.vue";
 
 const activities = ref([
   {
@@ -63,8 +64,18 @@ const meds = ref([
 const symptoms = ref([
   {
     symptom: "Brainfog",
-    severity: 4,
-    isEditMode: true,
+    severity: 2,
+    isEditMode: false,
+  },
+  {
+    symptom: "Neck pain",
+    severity: 2,
+    isEditMode: false,
+  },
+  {
+    symptom: "Heartburn",
+    severity: 1,
+    isEditMode: false,
   },
 ]);
 </script>
@@ -72,13 +83,14 @@ const symptoms = ref([
 <template>
   <div id="yesterday">
     <h2 class="title is-4 has-text-primary">Yesterday</h2>
-    <div class="steps">
+    <div class="stats">
       <h3 class="subtitle is-6">Total steps</h3>
       <StepsCard />
+      <h3 class="subtitle is-6">How did you sleep last night?</h3>
+      <SleepCard />
     </div>
     <div class="activities">
       <h3 class="subtitle is-6">Did you complete these activities?</h3>
-      <!--TODO: Ask user to check off the activities they managed to do yesterday.-->
       <template v-for="activity in activities" :key="activity.activity">
         <ActivityCard
           :activity="activity.activity"
@@ -89,9 +101,10 @@ const symptoms = ref([
         />
       </template>
       <PButton
+        class="has-text-primary"
         label="Add activity"
-        icon="ti ti-plus"
         variant="outlined"
+        icon="ti ti-plus"
         size="large"
         rounded
         fluid
@@ -119,6 +132,7 @@ const symptoms = ref([
         />
       </template>
       <PButton
+        class="has-text-primary"
         label="Add med/supplement"
         icon="ti ti-plus"
         variant="outlined"
@@ -130,7 +144,7 @@ const symptoms = ref([
             meds.push({
               name: '',
               dose: '',
-              times: [],
+              times: [0, 2],
               isEditMode: true,
               taken: [],
             })
@@ -147,6 +161,7 @@ const symptoms = ref([
         />
       </template>
       <PButton
+        class="has-text-primary"
         label="Add symptom"
         icon="ti ti-plus"
         variant="outlined"
@@ -166,22 +181,4 @@ const symptoms = ref([
   </div>
 </template>
 
-<style lang="css">
-#yesterday .p-card {
-  margin-bottom: 0.5rem;
-}
-
-#yesterday .subtitle {
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-#yesterday .p-card-body {
-  padding: 0.75rem;
-}
-
-#yesterday .description {
-  font-size: 0.9rem;
-  letter-spacing: 0.05rem;
-}
-</style>
+<style lang="css"></style>

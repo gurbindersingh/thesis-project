@@ -8,7 +8,7 @@ export function createColorSteps(start: number, end: number, steps: number) {
     .map((i) => i / (steps - 1))
     .map((fraction) => start + (end - start) * fraction)
     .map((hue) => Math.round(hue * 10) / 10)
-    .map((hue) => [65, 0.35, hue, 50, 50])
+    .map((hue) => [60, 0.28, hue, 50, 50])
     .map((values) => ({
       raw: values,
       css: `oklch(${values[0]}% ${values[1]} ${values[2]} / 1)`,
@@ -16,3 +16,6 @@ export function createColorSteps(start: number, end: number, steps: number) {
   console.log(colors);
   return colors;
 }
+
+export const redToGreenSteps = (steps: number) =>
+  createColorSteps(60, 142, steps);
