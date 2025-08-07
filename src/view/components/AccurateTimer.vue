@@ -5,9 +5,9 @@ import { computed, ref } from "vue";
 const props = defineProps<{ workTime: number; breakTime: number }>();
 const timerResolution = 100;
 
-let time = ref(props.workTime * 1000);
-let isWork = true;
-let isRunning = ref(false);
+const time = ref(props.workTime * 1000);
+const isWork = ref(true);
+const isRunning = ref(false);
 
 const timerWorker = new TimerWorker(timerResolution).setupEventListeners([
   {
@@ -25,7 +25,7 @@ const timerWorker = new TimerWorker(timerResolution).setupEventListeners([
 ]);
 
 const isPaused = computed(
-  () => (isWork ? props.workTime : props.breakTime) > time.value,
+  () => (isWork.value ? props.workTime : props.breakTime) * 1000 > time.value,
 );
 const seconds = computed(() =>
   String(Math.floor(time.value / 1000)).padStart(2, "0"),
@@ -35,22 +35,25 @@ const milliseconds = computed(() =>
 );
 
 function startTimer() {
-  timerWorker.startTimer(time.value);
   isRunning.value = true;
+  timerWorker.startTimer(time.value);
+  console.log("Starting timer", isRunning.value, isPaused.value);
 }
 
 function pauseTimer() {
-  timerWorker.stopTimer();
   isRunning.value = false;
+  timerWorker.stopTimer();
+  console.log("Pausing timer", isRunning.value, isPaused.value);
 }
 
 function resetTimer() {
-  time.value = (isWork ? props.workTime : props.breakTime) * 1000;
+  time.value = (isWork.value ? props.workTime : props.breakTime) * 1000;
+  console.log("Resetting timer", isRunning.value, isPaused.value);
 }
 
 function timerCompleted() {
-  isWork = !isWork;
   isRunning.value = false;
+  isWork.value = !isWork.value;
   resetTimer();
 }
 </script>
@@ -58,53 +61,54 @@ function timerCompleted() {
 <template>
   <div class="timer m-4">
     <h2 class="is-sr-only">Timer</h2>
+    <PMessage severity="info" icon="ti ti-info-circle" closable
+      >Take 6 measurements, 3 on each side. When taking a measurement hold for 2
+      to 3 seconds before releasing.</PMessage
+    >
+    <p class="is-size-5">
+      <span v-if="isWork">Measure</span>
+      <span v-else>Break</span>
+    </p>
     <p class="time">
       <span class="is-size-2"> {{ seconds }}.{{ milliseconds }} </span>
       <span class="ml-1" aria-hidden="true">s</span>
     </p>
-    <p class="is-size-5">
-      <span v-if="isWork">Messen!</span>
-      <span v-else>Pause</span>
-    </p>
 
-    <button
-      class="has-text-info is-large"
-      @click.stop="startTimer"
+    <PButton
+      class=""
+      icon="ti ti-player-play-filled"
+      rounded
+      variant="outlined"
       v-if="!isRunning"
-    >
-      <span class="icon is-large">
-        <i class="ti ti-player-play-filled"></i>
-      </span>
-    </button>
-
-    <button
-      class="has-text-info is-large"
+      :onClick="startTimer"
+    />
+    <PButton
+      class=""
+      icon="ti ti-player-pause-filled"
+      rounded
+      variant="outlined"
       v-if="isRunning"
-      @click.stop="pauseTimer"
-    >
-      <span class="icon is-large">
-        <i class="ti ti-player-pause-filled"></i>
-      </span>
-    </button>
-    <button
-      class="has-text-info is-large"
+      :onClick="pauseTimer"
+    />
+    <PButton
+      class=""
       :class="{ 'is-invisible': isRunning }"
-      @click.stop="timerCompleted"
+      :onClick="timerCompleted"
       :disabled="isRunning"
-    >
-      <span class="icon is-large">
-        <i class="ti ti-player-track-next-filled"></i>
-      </span>
-    </button>
-    <button
-      class="has-text-info is-large"
+      icon="ti ti-player-skip-forward-filled"
+      variant="outlined"
+      severity="secondary"
+      rounded
+    />
+    <PButton
+      class="reset-icon"
       :class="{ 'is-invisible': isRunning || !isPaused }"
-      @click.stop="resetTimer"
+      :onClick="resetTimer"
       :disabled="isRunning || !isPaused"
-    >
-      <span class="icon is-large">
-        <i class="reset-icon ti ti-rotate"></i>
-      </span>
-    </button>
+      icon="ti ti-rotate"
+      variant="outlined"
+      severity="secondary"
+      rounded
+    />
   </div>
 </template>

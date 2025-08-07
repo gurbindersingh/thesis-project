@@ -63,73 +63,40 @@ function toggleEditable(record: ExtendedGripStrengthRecord) {
 <template>
   <div class="grip-strength-records">
     <h2 class="is-sr-only">Messungen</h2>
-    <button class="button is-info mb-4" @click="addNewEntry" :disabled="isFull">
-      <span class="icon">
-        <i class="ti ti-plus is-size-4"></i>
-      </span>
-      <span> Hinzufügen </span>
-    </button>
+    <PButton
+      class="has-background-primary mb-4"
+      icon="ti ti-plus"
+      label="Add entry"
+      rounded
+      fluid
+      :onClick="addNewEntry"
+    />
     <div
       class="field is-grouped"
       v-for="r in records"
       :key="r.data.timestamp.getMilliseconds()"
     >
-      <button class="mx-2" @click.stop="() => toggleEditable(r)">
-        <span class="icon">
-          <i
-            class="ti ti-square-check-filled is-size-4 has-text-success"
-            v-if="r.isEditable"
-          ></i>
-          <i class="ti ti-edit is-size-4" v-else></i>
-        </span>
-      </button>
-
-      <button
-        class="button"
-        @click="() => r.data.strength--"
-        :disabled="!r.isEditable"
-      >
-        <i class="ti ti-minus"></i>
-      </button>
-      <input
-        class="input"
-        type="number"
-        :value="r.data.strength"
-        @change="(event: Event) => updateValue(event, r)"
-        :disabled="!r.isEditable"
-      />
-      <button
-        class="button"
-        @click="() => r.data.strength++"
-        :disabled="!r.isEditable"
-      >
-        <i class="ti ti-plus"></i>
-      </button>
-
-      <button
-        class="mx-2"
-        :class="{ 'is-invisible': !r.isEditable }"
-        @click.stop="() => showDialog(r)"
-      >
-        <span class="icon has-text-danger">
-          <i class="ti ti-trash-filled is-size-4"></i>
-        </span>
-      </button>
+      <PInputGroup>
+        <PInputNumber placeholder="10"></PInputNumber>
+        <PInputGroupAddon>kg</PInputGroupAddon>
+      </PInputGroup>
     </div>
 
     <dialog class="dialog" ref="dialog" @click="closeDialog">
       <div class="box" @click.stop="" role="presentation">
         <div>
-          <p class="title is-6"></p>
+          <p class="title is-6 mb-5">Delete Entry?</p>
         </div>
         <div class="field is-grouped">
-          <button class="button is-light" @click.stop="closeDialog">
-            Abbrechen
+          <button class="button is-light is-rounded" @click.stop="closeDialog">
+            Cancel
           </button>
           <button
-            class="button is-danger"
+            class="button is-danger is-rounded is-outlined"
             @click.stop="onConfirmDeletion"
-          ></button>
+          >
+            Delete
+          </button>
         </div>
       </div>
     </dialog>

@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { router } from "@/router";
 import { ref } from "vue";
 import ActivityCard from "./ActivityCard.vue";
+import CrashCard from "./CrashCard.vue";
 import MedsCard from "./MedsCard.vue";
+import SleepCard from "./SleepCard.vue";
 import StepsCard from "./StepsCard.vue";
 import SymptomsCard from "./SymptomsCard.vue";
-import SleepCard from "./SleepCard.vue";
-import CrashCard from "./CrashCard.vue";
 
 const activities = ref([
   {
@@ -65,24 +66,22 @@ const meds = ref([
 const symptoms = ref([
   {
     symptom: "Brainfog",
-    severity: 2,
     isEditMode: false,
   },
   {
     symptom: "Neck pain",
-    severity: 2,
     isEditMode: false,
   },
   {
     symptom: "Heartburn",
-    severity: 1,
     isEditMode: false,
   },
 ]);
 </script>
 
 <template>
-  <div id="yesterday">
+  <!-- TODO: Restructure the sections in Morning and Evening check-ins. -->
+  <div id="today">
     <h2 class="title is-4 has-text-primary">Today</h2>
     <div class="stats">
       <h3 class="subtitle is-6">Are you having a crash?</h3>
@@ -91,6 +90,48 @@ const symptoms = ref([
       <StepsCard />
       <h3 class="subtitle is-6">How did you sleep last night?</h3>
       <SleepCard />
+      <h3 class="subtitle is-6">Check fatigue level</h3>
+      <PButton
+        class="has-background-primary"
+        label="Measure hand grip strength"
+        icon="ti ti-arrow-right"
+        iconPos="right"
+        rounded
+        fluid
+        :onClick="() => router.push('/grip-strength')"
+      />
+    </div>
+
+    <div class="meds">
+      <h3 class="subtitle is-6">Did you take your meds/supplements?</h3>
+      <template v-for="med in meds" :key="med.name">
+        <MedsCard
+          :med="med.name"
+          :dose="med.dose"
+          :times="med.times"
+          :is-edit-mode="med.isEditMode"
+          :taken="med.taken"
+        />
+      </template>
+      <PButton
+        class="has-text-primary"
+        label="Add med/supplement"
+        icon="ti ti-plus"
+        variant="outlined"
+        size="large"
+        rounded
+        fluid
+        :onClick="
+          () =>
+            meds.push({
+              name: '',
+              dose: '',
+              times: [0, 2],
+              isEditMode: true,
+              taken: [],
+            })
+        "
+      />
     </div>
     <div class="activities">
       <h3 class="subtitle is-6">Did you complete these activities?</h3>
@@ -123,43 +164,12 @@ const symptoms = ref([
         "
       />
     </div>
-    <div class="meds">
-      <h3 class="subtitle is-6">Did you take your meds/supplements?</h3>
-      <template v-for="med in meds" :key="med.name">
-        <MedsCard
-          :med="med.name"
-          :dose="med.dose"
-          :times="med.times"
-          :is-edit-mode="med.isEditMode"
-          :taken="med.taken"
-        />
-      </template>
-      <PButton
-        class="has-text-primary"
-        label="Add med/supplement"
-        icon="ti ti-plus"
-        variant="outlined"
-        size="large"
-        rounded
-        fluid
-        :onClick="
-          () =>
-            meds.push({
-              name: '',
-              dose: '',
-              times: [0, 2],
-              isEditMode: true,
-              taken: [],
-            })
-        "
-      />
-    </div>
+
     <div class="symptoms">
       <h3 class="subtitle is-6">What symptoms did you have?</h3>
       <template v-for="symptom in symptoms" :key="symptom.symptom">
         <SymptomsCard
           :symptom="symptom.symptom"
-          :severity="symptom.severity"
           :is-edit-mode="symptom.isEditMode"
         />
       </template>
@@ -175,7 +185,6 @@ const symptoms = ref([
           () =>
             symptoms.push({
               symptom: '',
-              severity: 2,
               isEditMode: true,
             })
         "

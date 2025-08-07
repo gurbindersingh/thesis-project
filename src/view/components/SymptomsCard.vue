@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 
 const props = defineProps<{
   symptom: string;
-  severity: number;
+  severity?: number;
   isEditMode?: boolean;
   onDelete?: () => void;
 }>();
@@ -38,7 +38,9 @@ const colorValues = redToGreenSteps(5).reverse();
 
 const isEditMode = ref(props.isEditMode);
 const symptom = ref(props.symptom ? props.symptom : "");
-const selectedSeverity = ref(severityOptions[props.severity]);
+const selectedSeverity = ref(
+  props.severity ? severityOptions[props.severity] : null,
+);
 
 const filteredSuggestions = ref([] as string[]);
 const symptomIsEmpty = computed(() => symptom.value.trim().length < 1);

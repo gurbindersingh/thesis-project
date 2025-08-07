@@ -12,6 +12,11 @@ import Menu from "primevue/menu";
 import AutoComplete from "primevue/autocomplete";
 import InputNumber from "primevue/inputnumber";
 import InputText from "primevue/inputtext";
+import Slider from "primevue/slider";
+import DatePicker from "primevue/datepicker";
+import InputGroup from "primevue/inputgroup";
+import InputGroupAddon from "primevue/inputgroupaddon";
+import Message from "primevue/message";
 
 const app = createApp(App);
 app.use(router);
@@ -24,5 +29,10 @@ app.component("PMenu", Menu);
 app.component("PAutoComplete", AutoComplete);
 app.component("PInputNumber", InputNumber);
 app.component("PInputText", InputText);
+app.component("PSlider", Slider);
+app.component("PDatePicker", DatePicker);
+app.component("PInputGroup", InputGroup);
+app.component("PInputGroupAddon", InputGroupAddon);
+app.component("PMessage", Message);
 
 app.mount("#app");
