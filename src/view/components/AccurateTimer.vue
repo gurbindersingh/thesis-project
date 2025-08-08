@@ -59,15 +59,11 @@ function timerCompleted() {
 </script>
 
 <template>
-  <div class="timer m-4">
+  <div class="timer m-4 mt-6">
     <h2 class="is-sr-only">Timer</h2>
-    <PMessage severity="info" icon="ti ti-info-circle" closable
-      >Take 6 measurements, 3 on each side. When taking a measurement hold for 2
-      to 3 seconds before releasing.</PMessage
-    >
-    <p class="is-size-5">
-      <span v-if="isWork">Measure</span>
-      <span v-else>Break</span>
+    <p class="is-size-4">
+      <span v-if="isWork">Measure strength</span>
+      <span v-else>Take a break</span>
     </p>
     <p class="time">
       <span class="is-size-2"> {{ seconds }}.{{ milliseconds }} </span>
@@ -78,6 +74,7 @@ function timerCompleted() {
       class=""
       icon="ti ti-player-play-filled"
       rounded
+      size="large"
       variant="outlined"
       v-if="!isRunning"
       :onClick="startTimer"
@@ -86,6 +83,7 @@ function timerCompleted() {
       class=""
       icon="ti ti-player-pause-filled"
       rounded
+      size="large"
       variant="outlined"
       v-if="isRunning"
       :onClick="pauseTimer"
@@ -98,6 +96,7 @@ function timerCompleted() {
       icon="ti ti-player-skip-forward-filled"
       variant="outlined"
       severity="secondary"
+      size="large"
       rounded
     />
     <PButton
@@ -108,6 +107,7 @@ function timerCompleted() {
       icon="ti ti-rotate"
       variant="outlined"
       severity="secondary"
+      size="large"
       rounded
     />
   </div>
