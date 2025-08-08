@@ -72,7 +72,7 @@ function closeDialog() {
     <PButton
       class="has-text-primary mb-4"
       icon="ti ti-plus"
-      label="Add additional entry"
+      label="Add additional entries"
       variant="outlined"
       rounded
       fluid
