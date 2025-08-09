@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// TODO: Use custom severity buttons if there is time.
 import { computed, onMounted, ref } from "vue";
 
 const props = defineProps<{
