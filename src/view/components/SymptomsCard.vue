@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { redToGreenSteps } from "@/services/color-steps";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 const props = defineProps<{
   symptom: string;
@@ -41,9 +41,14 @@ const symptom = ref(props.symptom ? props.symptom : "");
 const selectedSeverity = ref(
   props.severity ? severityOptions[props.severity] : null,
 );
-
+const timestamp = ref(null as Date | null);
 const filteredSuggestions = ref([] as string[]);
+
 const symptomIsEmpty = computed(() => symptom.value.trim().length < 1);
+
+watch(selectedSeverity, () => {
+  if (!timestamp.value) timestamp.value = new Date();
+});
 
 function search(event: { query: string }) {
   filteredSuggestions.value = allSuggestions.filter((s) =>
@@ -95,12 +100,24 @@ function search(event: { query: string }) {
         </div>
       </div>
       <div class="show-mode is-flex is-align-items-center" v-else>
-        <p
-          class="activity title has-text-weight-medium is-size-6 m-0"
-          style="min-width: 5rem"
-        >
-          {{ symptom }}
-        </p>
+        <div>
+          <p
+            class="activity title has-text-weight-medium is-size-6 m-0"
+            style="min-width: 5rem"
+          >
+            {{ symptom }}
+          </p>
+          <p class="description has-text-grey">
+            {{
+              timestamp
+                ? timestamp.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : ""
+            }}
+          </p>
+        </div>
         <PButton
           variant="text"
           icon="ti ti-settings"

@@ -166,7 +166,7 @@ const symptoms = ref([
     </div>
 
     <div class="symptoms">
-      <h3 class="subtitle is-6">What symptoms did you have?</h3>
+      <h3 class="subtitle is-6">What symptoms do you have?</h3>
       <template v-for="symptom in symptoms" :key="symptom.symptom">
         <SymptomsCard
           :symptom="symptom.symptom"
