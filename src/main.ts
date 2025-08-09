@@ -17,6 +17,7 @@ import DatePicker from "primevue/datepicker";
 import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 import Message from "primevue/message";
+import Knob from "primevue/knob";
 
 const app = createApp(App);
 app.use(router);
@@ -34,5 +35,6 @@ app.component("PDatePicker", DatePicker);
 app.component("PInputGroup", InputGroup);
 app.component("PInputGroupAddon", InputGroupAddon);
 app.component("PMessage", Message);
+app.component("PKnob", Knob);
 
 app.mount("#app");
