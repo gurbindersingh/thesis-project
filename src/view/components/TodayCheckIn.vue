@@ -77,6 +77,30 @@ const symptoms = ref([
     isEditMode: false,
   },
 ]);
+
+function deleteSymptom(symptom: { symptom: string; isEditMode: boolean }) {
+  symptoms.value.splice(symptoms.value.indexOf(symptom), 1);
+}
+
+function deleteMed(med: {
+  name: string;
+  isEditMode: boolean;
+  taken: boolean[];
+  dose: string;
+  times: number[];
+}) {
+  meds.value.splice(meds.value.indexOf(med), 1);
+}
+
+function deleteActivity(activity: {
+  activity: string;
+  severity: number;
+  isEditMode: boolean;
+  isDone: boolean;
+  icon: string;
+}) {
+  activities.value.splice(activities.value.indexOf(activity), 1);
+}
 </script>
 
 <template>
@@ -111,6 +135,7 @@ const symptoms = ref([
           :times="med.times"
           :is-edit-mode="med.isEditMode"
           :taken="med.taken"
+          :onDelete="() => deleteMed(med)"
         />
       </template>
       <PButton
@@ -142,6 +167,7 @@ const symptoms = ref([
           :icon="activity.icon"
           :is-edit-mode="activity.isEditMode"
           :is-done="activity.isDone"
+          :onDelete="() => deleteActivity(activity)"
         />
       </template>
       <PButton
@@ -171,6 +197,7 @@ const symptoms = ref([
         <SymptomsCard
           :symptom="symptom.symptom"
           :is-edit-mode="symptom.isEditMode"
+          :onDelete="() => deleteSymptom(symptom)"
         />
       </template>
       <PButton

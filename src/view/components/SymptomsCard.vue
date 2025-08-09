@@ -76,6 +76,7 @@ function search(event: { query: string }) {
             severity="secondary"
             variant="text"
             icon="ti ti-trash"
+            :onClick="onDelete"
             rounded
           />
           <PButton

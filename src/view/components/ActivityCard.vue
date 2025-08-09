@@ -86,7 +86,12 @@ function search(event: { query: string }) {
             fluid
             @complete="search"
           />
-          <PButton icon="ti ti-trash" variant="text" severity="contrast" />
+          <PButton
+            icon="ti ti-trash"
+            variant="text"
+            severity="contrast"
+            :onClick="onDelete"
+          />
         </div>
 
         <p

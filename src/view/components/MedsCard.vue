@@ -86,7 +86,12 @@ onMounted(() => {
             @complete="search"
           />
           <PInputText v-model="dose" placeholder="Dose" style="width: 40%" />
-          <PButton icon="ti ti-trash" variant="text" severity="contrast" />
+          <PButton
+            icon="ti ti-trash"
+            variant="text"
+            severity="contrast"
+            :onClick="onDelete"
+          />
         </div>
         <PSelectButton
           class="time-selector mb-4"
