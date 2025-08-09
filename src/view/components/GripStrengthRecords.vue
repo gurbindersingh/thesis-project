@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { router } from "@/router";
-import { computed, ref } from "vue";
+import { computed, onBeforeMount, ref } from "vue";
 
 interface GripStrengthRecord {
   isDirty?: boolean;
   data: {
-    timestamp: Date;
+    timestamp: number;
     strength: {
       right: number;
       left: number;
@@ -18,7 +18,7 @@ const records = ref(
     .fill(0)
     .map(() => ({
       data: {
-        timestamp: new Date(),
+        timestamp: Date.now(),
         strength: { right: 0, left: 0 },
       },
     })),
@@ -35,20 +35,27 @@ const isFull = computed(
 
 let onConfirmDeletion = () => {};
 
+onBeforeMount(() => {
+  // Load data from local storage if it exists.
+  const savedJson = localStorage.getItem("handgrip");
+  if (!savedJson) return;
+  const parsedData: GripStrengthRecord[] = JSON.parse(savedJson);
+  records.value = parsedData;
+});
+
 function addNewEntry(numberOfEntries: number) {
   for (let i = 0; i < numberOfEntries; i++) {
     records.value.push({
-      data: { timestamp: new Date(), strength: { right: 0, left: 0 } },
+      data: { timestamp: Date.now(), strength: { right: 0, left: 0 } },
     });
   }
 }
 
-function deleteEntry(record: GripStrengthRecord) {
+function deleteEntry(recordToDelete: GripStrengthRecord) {
   if (records.value.length <= 3) return;
 
-  const { timestamp: toDelete } = record.data;
   records.value = records.value.filter(
-    (r) => r.data.timestamp.getMilliseconds() !== toDelete.getMilliseconds(),
+    (r) => r.data.timestamp !== recordToDelete.data.timestamp,
   );
 }
 
@@ -63,6 +70,11 @@ function showDialog(record: GripStrengthRecord) {
 function closeDialog() {
   onConfirmDeletion = () => {};
   dialog.value?.close();
+}
+
+function saveAndBack() {
+  localStorage.setItem("handgrip", JSON.stringify(records.value));
+  router.back();
 }
 </script>
 
@@ -82,7 +94,7 @@ function closeDialog() {
     <div
       class="field is-grouped"
       v-for="(record, i) in records"
-      :key="record.data.timestamp.getMilliseconds() + i"
+      :key="record.data.timestamp + i"
     >
       <PButton :label="i + 1" variant="text" severity="secondary" disabled />
       <PInputGroup>
@@ -117,7 +129,7 @@ function closeDialog() {
       :disabled="!isFull"
       rounded
       fluid
-      :onClick="() => router.back()"
+      :onClick="saveAndBack"
     />
 
     <dialog class="dialog" ref="dialog" @click="closeDialog">
