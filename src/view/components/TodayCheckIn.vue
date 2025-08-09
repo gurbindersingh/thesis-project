@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { router } from "@/router";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import ActivityCard from "./ActivityCard.vue";
 import CrashCard from "./CrashCard.vue";
 import MedsCard from "./MedsCard.vue";
@@ -13,7 +13,7 @@ const activities = ref([
     activity: "Work",
     severity: 3,
     isEditMode: false,
-    isDone: true,
+    isDone: false,
     icon: "briefcase",
   },
   {
@@ -34,7 +34,7 @@ const activities = ref([
     activity: "Shower",
     severity: 1,
     isEditMode: false,
-    isDone: true,
+    isDone: false,
     icon: "bath",
   },
 ]);
@@ -43,21 +43,21 @@ const meds = ref([
   {
     name: "LDN",
     isEditMode: false,
-    taken: [true],
+    taken: [false],
     dose: "25 ml",
     times: [0],
   },
   {
     name: "PPI",
     isEditMode: false,
-    taken: [true, false],
+    taken: [false, false],
     dose: "4.5 mg",
     times: [0, 2],
   },
   {
     name: "Pain med",
     isEditMode: false,
-    taken: [true, true, false, false],
+    taken: [false, false, false, false],
     dose: "2 g/5 ml",
     times: [0, 1, 2, 3],
   },
@@ -120,6 +120,7 @@ function deleteActivity(activity: {
         label="Measure hand grip strength"
         icon="ti ti-arrow-right"
         iconPos="right"
+        size="large"
         rounded
         fluid
         :onClick="() => router.push('/grip-strength')"
@@ -217,6 +218,14 @@ function deleteActivity(activity: {
         "
       />
     </div>
+    <PButton
+      class="mt-5 has-background-primary"
+      label="Calculate budget"
+      size="large"
+      fluid
+      rounded
+      :onClick="() => router.push('/diagnostic')"
+    />
   </div>
 </template>
 

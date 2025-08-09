@@ -158,7 +158,8 @@ function saveAndBack() {
 </template>
 
 <style lang="css">
-.grip-strength-records {
+.grip-strength-records,
+.budget {
   display: grid;
   place-items: center;
 }
