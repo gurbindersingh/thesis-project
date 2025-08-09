@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { redToGreenSteps } from "@/services/color-steps";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const sleepScoreOptions: Array<{ score: number; description: string }> = [
   {
@@ -26,6 +26,12 @@ const isEditMode = ref(false);
 const sleepTime = ref("07:23");
 const selectedScore = ref(
   null as { score: number; description: string } | null,
+);
+watch(selectedScore, (newValue) =>
+  localStorage.setItem(
+    "sleep",
+    JSON.stringify({ quality: newValue, length: sleepTime.value }),
+  ),
 );
 </script>
 

@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
-const isDone = ref(false);
+const crashing = ref(false);
+watch(crashing, (newValue) =>
+  localStorage.setItem("crashing", JSON.stringify({ crashing: newValue })),
+);
 </script>
 
 <template>
-  <PCard class="activity-card">
+  <PCard class="crash-card">
     <template #content>
       <div class="is-flex is-align-items-center">
         <i class="ti ti-trending-down has-text-weight-bold is-size-4 mr-5" />
@@ -13,7 +16,7 @@ const isDone = ref(false);
         <div class="spacer is-flex-grow-1"></div>
         <PSelectButton
           class="done-selector"
-          v-model="isDone"
+          v-model="crashing"
           :options="['Yes', 'No']"
           :optionValue="(val: string) => val === 'Yes'"
         />

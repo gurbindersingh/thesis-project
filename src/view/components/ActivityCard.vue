@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // TODO: Use custom severity buttons if there is time.
 import { redToGreenSteps } from "@/services/color-steps";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 const props = defineProps<{
   activity?: string;
@@ -63,6 +63,28 @@ function search(event: { query: string }) {
     s.toLowerCase().includes(event.query.toLowerCase()),
   );
 }
+watch(isDone, () => {
+  console.log("Watch");
+
+  const json = localStorage.getItem("activities");
+  const parsedData: Array<{ activity: string; severity: number }> = json
+    ? JSON.parse(json)
+    : [];
+  const newData = {
+    activity: localActivity.value,
+    severity: selectedSeverity.value.value,
+  };
+  const containsActivity =
+    parsedData.filter(
+      (a) => a.activity === newData.activity && a.severity === newData.severity,
+    ).length > 0;
+
+  if (containsActivity) {
+    return;
+  }
+  parsedData.push(newData);
+  localStorage.setItem("activities", JSON.stringify(parsedData));
+});
 </script>
 
 <template>
@@ -109,6 +131,7 @@ function search(event: { query: string }) {
           v-model="selectedSeverity"
           :options="severityOptions"
           optionLabel="value"
+          :allowEmpty="false"
           fluid
         />
         <PButton

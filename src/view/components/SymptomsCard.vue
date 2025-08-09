@@ -46,8 +46,31 @@ const filteredSuggestions = ref([] as string[]);
 
 const symptomIsEmpty = computed(() => symptom.value.trim().length < 1);
 
-watch(selectedSeverity, () => {
+watch(selectedSeverity, (newSeverity) => {
+  if (!newSeverity) return;
+
   if (!timestamp.value) timestamp.value = new Date();
+
+  const json = localStorage.getItem("symptoms");
+  const parsedData: Array<{ symptom: string; severity: number }> = json
+    ? JSON.parse(json)
+    : [];
+
+  const newData = {
+    symptom: symptom.value,
+    severity: newSeverity.value,
+  };
+
+  const containsSymptom =
+    parsedData.filter(
+      (a) => a.symptom === newData.symptom && a.severity === newData.severity,
+    ).length > 0;
+
+  if (containsSymptom) {
+    return;
+  }
+  parsedData.push(newData);
+  localStorage.setItem("symptoms", JSON.stringify(parsedData));
 });
 
 function search(event: { query: string }) {

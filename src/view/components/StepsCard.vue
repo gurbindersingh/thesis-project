@@ -1,11 +1,20 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const isEditMode = ref(false);
 const stepCount = ref(1204);
-const time = new Date().toLocaleTimeString([], {
-  hour: "2-digit",
-  minute: "2-digit",
+const time = ref(
+  new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  }),
+);
+watch(stepCount, (newValue) => {
+  time.value = new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  localStorage.setItem("steps", JSON.stringify(newValue));
 });
 </script>
 
@@ -33,7 +42,7 @@ const time = new Date().toLocaleTimeString([], {
           v-else
         />
         <div class="spacer is-flex-grow-1"></div>
-        <p class="description has-text-grey">
+        <p class="description has-text-grey" v-if="!isEditMode">
           <span>Last checked: </span>
           <span>{{ time }}</span>
           <PButton icon="ti ti-refresh" variant="text" severity="secondary" />
