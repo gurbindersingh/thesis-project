@@ -45,7 +45,16 @@ watch(stepCount, (newValue) => {
         <p class="description has-text-grey" v-if="!isEditMode">
           <span>Last checked: </span>
           <span>{{ time }}</span>
-          <PButton icon="ti ti-refresh" variant="text" severity="secondary" />
+          <PButton
+            icon="ti ti-refresh"
+            variant="text"
+            severity="secondary"
+            :onClick="
+              () => {
+                stepCount += Math.round(Math.random() * 100);
+              }
+            "
+          />
         </p>
       </div>
     </template>

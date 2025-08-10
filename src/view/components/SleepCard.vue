@@ -30,7 +30,7 @@ const selectedScore = ref(
 watch(selectedScore, (newValue) =>
   localStorage.setItem(
     "sleep",
-    JSON.stringify({ quality: newValue, length: sleepTime.value }),
+    JSON.stringify({ quality: newValue?.score, length: sleepTime.value }),
   ),
 );
 </script>
@@ -66,6 +66,7 @@ watch(selectedScore, (newValue) =>
           class="severity-selector"
           v-model="selectedScore"
           :options="sleepScoreOptions"
+          :allowEmpty="false"
           optionLabel="score"
         />
       </div>

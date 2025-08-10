@@ -18,6 +18,7 @@ import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 import Message from "primevue/message";
 import Knob from "primevue/knob";
+import Chart from "primevue/chart";
 
 const app = createApp(App);
 app.use(router);
@@ -36,5 +37,6 @@ app.component("PInputGroup", InputGroup);
 app.component("PInputGroupAddon", InputGroupAddon);
 app.component("PMessage", Message);
 app.component("PKnob", Knob);
+app.component("PChart", Chart);
 
 app.mount("#app");
