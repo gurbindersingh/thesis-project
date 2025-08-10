@@ -42,3 +42,9 @@
   font-size: 0.9rem;
   letter-spacing: 0.03rem;
 }
+
+p,
+is-6,
+is-size-6 {
+  letter-spacing: 0.015rem;
+}

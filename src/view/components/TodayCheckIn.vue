@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { router } from "@/router";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import ActivityCard from "./ActivityCard.vue";
 import CrashCard from "./CrashCard.vue";
 import MedsCard from "./MedsCard.vue";
@@ -48,7 +48,7 @@ const meds = ref([
     times: [0],
   },
   {
-    name: "PPI",
+    name: "Antihistamines",
     isEditMode: false,
     taken: [false, false],
     dose: "4.5 mg",
@@ -128,7 +128,7 @@ function deleteActivity(activity: {
     </div>
 
     <div class="meds">
-      <h3 class="subtitle is-6">Did you take your meds/supplements?</h3>
+      <h3 class="subtitle is-6">What meds/supplements did you take?</h3>
       <template v-for="med in meds" :key="med.name">
         <MedsCard
           :med="med.name"
@@ -152,7 +152,7 @@ function deleteActivity(activity: {
             meds.push({
               name: '',
               dose: '',
-              times: [0, 2],
+              times: [],
               isEditMode: true,
               taken: [],
             })
