@@ -46,31 +46,42 @@ const filteredSuggestions = ref([] as string[]);
 
 const symptomIsEmpty = computed(() => symptom.value.trim().length < 1);
 
-watch(selectedSeverity, (newSeverity) => {
-  if (!newSeverity) return;
-
+watch(selectedSeverity, (newSeverity, oldSeverity) => {
   if (!timestamp.value) timestamp.value = new Date();
 
   const json = localStorage.getItem("symptoms");
-  const parsedData: Array<{ symptom: string; severity: number }> = json
-    ? JSON.parse(json)
-    : [];
+  const symptoms: Array<{
+    symptom: string;
+    severity: number;
+    timestamp: string;
+  }> = json ? JSON.parse(json) : [];
 
-  const newData = {
-    symptom: symptom.value,
-    severity: newSeverity.value,
-  };
+  const i = symptoms.findIndex(
+    (a) =>
+      a.symptom === symptom.value &&
+      a.timestamp === timestamp.value?.toISOString(),
+  );
 
-  const containsSymptom =
-    parsedData.filter(
-      (a) => a.symptom === newData.symptom && a.severity === newData.severity,
-    ).length > 0;
+  console.log(newSeverity, oldSeverity);
 
-  if (containsSymptom) {
-    return;
+  if (!newSeverity && i >= 0) {
+    timestamp.value = null;
+    console.log("Remove");
+    symptoms.splice(i, 1);
+  } else if (newSeverity) {
+    console.log("Add");
+    const newData = {
+      symptom: symptom.value,
+      severity: newSeverity.value,
+      timestamp: timestamp.value?.toISOString(),
+    };
+    if (i < 0) {
+      symptoms.push(newData);
+    } else {
+      symptoms[i] = newData;
+    }
   }
-  parsedData.push(newData);
-  localStorage.setItem("symptoms", JSON.stringify(parsedData));
+  localStorage.setItem("symptoms", JSON.stringify(symptoms));
 });
 
 function search(event: { query: string }) {

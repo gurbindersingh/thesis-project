@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 const props = defineProps<{
   med: string;
@@ -52,8 +52,6 @@ const dose = ref(props.dose);
 const filteredSuggestions = ref([] as string[]);
 const selectedTimes = ref(props.times.map((t) => timeOptions[t]));
 
-const medNameIsEmpty = computed(() => medName.value.trim().length < 1);
-
 function search(event: { query: string }) {
   filteredSuggestions.value = autocompleteList.filter((s) =>
     s.toLowerCase().includes(event.query.toLowerCase()),
@@ -65,6 +63,46 @@ onMounted(() => {
     timeOptions[props.times[i]].taken = props.taken[i];
   }
 });
+
+// NOTE: A watcher like this only detects changes one level deep. If you want
+// to watch for all changes, pass `{deep: true}` as the third parameter. Or
+// pass a callback as the first parameter if you only care for a subset of the
+// data.
+// watch(
+//   selectedTimes,
+//   (newValues) => {
+//     console.log(newValues);
+//   },
+//   { deep: false },
+// );
+
+watch(
+  () => selectedTimes.value.map((t) => t.taken),
+  () => {
+    const json = localStorage.getItem("meds");
+    const meds: Array<{
+      name: string;
+      dose: string;
+      times: { time: number; timeStr: string }[];
+    }> = json ? JSON.parse(json) : [];
+
+    const newData = {
+      name: medName.value,
+      dose: dose.value,
+      times: selectedTimes.value
+        .filter((t) => t.taken)
+        .map((t) => ({ time: t.order, timeStr: t.label })),
+    };
+    console.log(newData);
+
+    const i = meds.findIndex(
+      (m) => m.name === medName.value && m.dose === dose.value,
+    );
+    if (i >= 0) meds[i] = newData;
+    else meds.push(newData);
+    localStorage.setItem("meds", JSON.stringify(meds));
+  },
+);
 </script>
 
 <template>
@@ -80,12 +118,17 @@ onMounted(() => {
             placeholder="Medication name"
             :emptySearchMessage="'Adding new med: ' + medName"
             :suggestions="filteredSuggestions"
-            :invalid="medNameIsEmpty"
+            :invalid="!medName"
             completeOnFocus
             fluid
             @complete="search"
           />
-          <PInputText v-model="dose" placeholder="Dose" style="width: 40%" />
+          <PInputText
+            v-model="dose"
+            :invalid="!dose"
+            placeholder="Dose"
+            style="width: 40%"
+          />
           <PButton
             icon="ti ti-trash"
             variant="text"
@@ -102,22 +145,18 @@ onMounted(() => {
           fluid
         >
         </PSelectButton>
-        <p class="description is-italic mb-3">
-          Note: This will only change this entry. To make a permanent change,
-          use the <a>medication list</a>.
-        </p>
         <PButton
           label="Save"
           severity="secondary"
           rounded
           fluid
-          :disabled="medNameIsEmpty"
+          :disabled="!medName || !dose"
           :onClick="() => (isEditMode = false)"
         />
       </div>
 
       <div class="show-mode" v-else>
-        <div class="is-flex is-align-items-center mb-4">
+        <div class="is-flex is-align-items-center">
           <p class="med title has-text-weight-medium is-size-6 m-0">
             <span class="name mr-2">{{ medName }}</span>
             <span class="dose">({{ dose }})</span>
@@ -135,20 +174,19 @@ onMounted(() => {
           v-for="time in selectedTimes.sort((a, b) => a.order - b.order)"
           :key="time.order"
         >
-          <div>
-            <div class="is-flex is-align-items-center mb-2">
-              <i
-                class="ti has-text-bold is-size-5 mr-2"
-                :class="'ti-' + time.icon"
-              ></i>
-              <p class="time is-flex-grow-1">{{ time.label }}</p>
-              <PSelectButton
-                class="done-selector"
-                v-model="time.taken"
-                :options="['Yes', 'No']"
-                :optionValue="(val: string) => val === 'Yes'"
-              />
-            </div>
+          <div class="is-flex is-align-items-center my-2">
+            <i
+              class="ti has-text-bold is-size-5 mr-2"
+              :class="'ti-' + time.icon"
+            ></i>
+            <p class="time is-flex-grow-1">{{ time.label }}</p>
+            <PSelectButton
+              class="done-selector"
+              v-model="time.taken"
+              :options="['Yes', 'No']"
+              :optionValue="(val: string) => val === 'Yes'"
+              :allowEmpty="false"
+            />
           </div>
         </template>
       </div>

@@ -63,27 +63,30 @@ function search(event: { query: string }) {
     s.toLowerCase().includes(event.query.toLowerCase()),
   );
 }
-watch(isDone, () => {
+watch(isDone, (activityDone) => {
   console.log("Watch");
 
   const json = localStorage.getItem("activities");
-  const parsedData: Array<{ activity: string; severity: number }> = json
+  const activities: Array<{ activity: string; severity: number }> = json
     ? JSON.parse(json)
     : [];
+
   const newData = {
     activity: localActivity.value,
     severity: selectedSeverity.value.value,
   };
-  const containsActivity =
-    parsedData.filter(
-      (a) => a.activity === newData.activity && a.severity === newData.severity,
-    ).length > 0;
 
-  if (containsActivity) {
-    return;
+  const i = activities.findIndex(
+    (a) => a.activity === newData.activity && a.severity === newData.severity,
+  );
+
+  if (!activityDone && i >= 0) {
+    console.log("Remove");
+    activities.splice(i, 1);
+  } else if (activityDone && i < 0) {
+    activities.push(newData);
   }
-  parsedData.push(newData);
-  localStorage.setItem("activities", JSON.stringify(parsedData));
+  localStorage.setItem("activities", JSON.stringify(activities));
 });
 </script>
 
@@ -177,6 +180,7 @@ watch(isDone, () => {
             v-model="isDone"
             :options="['Yes', 'No']"
             :optionValue="(val: string) => val === 'Yes'"
+            :allowEmpty="false"
           />
         </div>
       </div>
