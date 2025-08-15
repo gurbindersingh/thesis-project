@@ -100,9 +100,12 @@ onMounted(() => {
         :max="budget"
         :strokeWidth="10"
         :readonly="true"
+        :valueTemplate="`{value} / ${budget}`"
         v-model="boundedBudget"
       />
-      <h2 class="subtitle is-5 mb-2">Points</h2>
+      <h2 class="subtitle is-5 mb-2" style="margin-top: -0.7rem">
+        Points left
+      </h2>
       <p class="description has-text-grey mb-4">
         Last calculated:
         {{
