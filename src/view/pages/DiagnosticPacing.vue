@@ -160,3 +160,9 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style lang="css">
+.p-knob-text {
+  font-size: 1.2rem;
+}
+</style>
