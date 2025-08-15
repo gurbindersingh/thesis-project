@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
-const budget = 12;
-const currentBudget = ref(10);
-const steps = ref(localStorage.getItem("steps"));
-const activities = ref([
+const budget = 16;
+const currentBudget = ref(budget);
+const boundedBudget = computed(() =>
+  currentBudget.value >= 0 ? currentBudget : 0,
+);
+const steps = ref(Number(localStorage.getItem("steps")).valueOf());
+const stepCost = computed(() => {
+  if (steps.value > 10000) return 16;
+  if (steps.value > 8000) return 4;
+  if (steps.value > 6000) return 2;
+  return 1;
+});
+
+const activities = [
   {
     name: "Work",
-    cost: 8,
+    cost: 10,
     icon: "briefcase",
   },
   {
@@ -25,7 +35,51 @@ const activities = ref([
     cost: 1,
     icon: "bath",
   },
-]);
+];
+
+function getSymptoms() {
+  const json = localStorage.getItem("symptoms");
+  if (!json) return;
+
+  const symptoms: { symptom: string; severity: number; timestamp: Date }[] =
+    JSON.parse(json);
+
+  const factor = symptoms
+    .filter((s) => s.symptom === "Brainfog")
+    .map((s) => s.severity)
+    .reduce((prev, curr) => prev + curr);
+  currentBudget.value -= factor;
+}
+
+function getActivities() {
+  const json = localStorage.getItem("activities");
+  if (!json) return;
+
+  const doneActivities: { activity: string; severity: number }[] =
+    JSON.parse(json);
+
+  const factor = activities
+    .filter((a) => doneActivities.map((a) => a.activity).includes(a.name))
+    .map((a) => a.cost)
+    .reduce((prev, curr) => prev + curr);
+  currentBudget.value -= factor;
+}
+
+function getSleep() {
+  const json = localStorage.getItem("sleep");
+  if (!json) return;
+
+  const sleep: { quality: number; length: string } = JSON.parse(json);
+
+  const factor = (4 / sleep.quality - 1) * 2;
+  currentBudget.value -= factor;
+}
+
+onMounted(() => {
+  getSymptoms();
+  getActivities();
+  getSleep();
+});
 </script>
 
 <template>
@@ -37,7 +91,8 @@ const activities = ref([
         :min="0"
         :max="budget"
         :strokeWidth="10"
-        v-model="currentBudget"
+        :readonly="true"
+        v-model="boundedBudget"
       />
       <h2 class="subtitle is-5 mb-2">Points</h2>
       <p class="description has-text-grey mb-4">
@@ -63,7 +118,13 @@ const activities = ref([
           <template #content>
             <div class="is-flex is-align-items-center">
               <i class="is-size-5 ti ti-walk"></i>
-              <p class="ml-2 has-text-weight-bold">Steps: {{ steps }}</p>
+              <p class="ml-2 has-text-weight-bold is-flex-grow-1">
+                Steps: {{ steps }}
+              </p>
+              <p class="description has-text-grey">
+                <span>Energy cost: </span>
+                <span>{{ stepCost }}</span>
+              </p>
             </div>
           </template>
         </PCard>
