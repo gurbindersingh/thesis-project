@@ -25,7 +25,8 @@
   transform: rotate(180deg);
 }
 
-#check-in .p-card {
+#check-in .p-card,
+#diagnostic-pacing .p-card {
   margin-bottom: 0.5rem;
 }
 
@@ -34,7 +35,8 @@
   margin-bottom: 0.5rem;
 }
 
-#check-in .p-card-body {
+#check-in .p-card-body,
+#diagnostic-pacing .p-card-body {
   padding: 0.75rem;
 }
 

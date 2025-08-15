@@ -2,44 +2,44 @@
 import { ref } from "vue";
 
 const budget = 12;
-const current = ref(10);
-
-const chartData = {
-  labels: ["Q1", "Q2", "Q3", "Q4"],
-  datasets: [
-    {
-      label: "Sales",
-      data: [540, 325, 702, 620],
-      // backgroundColor: [
-      //   "rgba(249, 115, 22, 0.2)",
-      //   "rgba(6, 182, 212, 0.2)",
-      //   "rgb(107, 114, 128, 0.2)",
-      //   "rgba(139, 92, 246 0.2)",
-      // ],
-      // borderColor: [
-      //   "rgb(249, 115, 22)",
-      //   "rgb(6, 182, 212)",
-      //   "rgb(107, 114, 128)",
-      //   "rgb(139, 92, 246)",
-      // ],
-      // borderWidth: 1,
-    },
-  ],
-};
+const currentBudget = ref(10);
+const steps = ref(localStorage.getItem("steps"));
+const activities = ref([
+  {
+    name: "Work",
+    cost: 8,
+    icon: "briefcase",
+  },
+  {
+    name: "Make dinner",
+    cost: 2,
+    icon: "chef-hat",
+  },
+  {
+    name: "Clean up",
+    cost: 2,
+    icon: "wash",
+  },
+  {
+    name: "Shower",
+    cost: 1,
+    icon: "bath",
+  },
+]);
 </script>
 
 <template>
-  <div class="diagnostic-pacing mt-6">
+  <div id="diagnostic-pacing" class="mt-6">
     <div class="budget">
-      <h1 class="title is-4">Your budget for today</h1>
+      <h1 class="title is-4">Your energy budget for today</h1>
       <PKnob
         size="200"
         :min="0"
         :max="budget"
         :strokeWidth="10"
-        v-model="current"
+        v-model="currentBudget"
       />
-      <h2 class="subtitle is-5 mb-2">Energy points.</h2>
+      <h2 class="subtitle is-5 mb-2">Points</h2>
       <p class="description has-text-grey mb-4">
         Last calculated:
         {{
@@ -55,19 +55,33 @@ const chartData = {
           you have provided.
         </p>
         <p class="mt-2 has-text-grey has-text-centered">
-          This value will be adjusted throughout the day as you check of more
-          things and the more steps you accumulate.
+          This value will be updated throughout the day based on your activity.
         </p>
       </div>
-      <!-- <div style="margin-top: 4rem; width: 100%"> -->
-      <!--   <h2 class="title is-6 mb-3 has-text-centered">Previous budgets</h2> -->
-      <!--   <PChart -->
-      <!--     style="width: 100%" -->
-      <!--     type="bar" -->
-      <!--     :data="chartData" -->
-      <!--     :options="{}" -->
-      <!--   /> -->
-      <!-- </div> -->
+      <div class="mt-6 costs" style="width: 100%">
+        <PCard v-if="steps">
+          <template #content>
+            <div class="is-flex is-align-items-center">
+              <i class="is-size-5 ti ti-walk"></i>
+              <p class="ml-2 has-text-weight-bold">Steps: {{ steps }}</p>
+            </div>
+          </template>
+        </PCard>
+        <PCard v-for="activity in activities" :key="activity.name">
+          <template #content>
+            <div class="is-flex is-align-items-center">
+              <i class="is-size-5" :class="'ti ti-' + activity.icon"></i>
+              <p class="has-text-weight-bold is-flex-grow-1 ml-2">
+                {{ activity.name }}
+              </p>
+              <p class="description has-text-grey">
+                <span>Energy cost: </span>
+                <span>{{ activity.cost }}</span>
+              </p>
+            </div>
+          </template>
+        </PCard>
+      </div>
     </div>
   </div>
 </template>
