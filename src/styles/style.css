@@ -40,7 +40,8 @@
   padding: 0.75rem;
 }
 
-#check-in .description {
+#check-in .description,
+#diagnostic-pacing .description {
   font-size: 0.9rem;
   letter-spacing: 0.03rem;
 }

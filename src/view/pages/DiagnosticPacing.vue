@@ -19,21 +19,25 @@ const activities = [
     name: "Work",
     cost: 10,
     icon: "briefcase",
+    completed: false,
   },
   {
     name: "Make dinner",
     cost: 2,
     icon: "chef-hat",
+    completed: false,
   },
   {
     name: "Clean up",
     cost: 2,
     icon: "wash",
+    completed: false,
   },
   {
     name: "Shower",
     cost: 1,
     icon: "bath",
+    completed: false,
   },
 ];
 
@@ -63,6 +67,10 @@ function getActivities() {
     .map((a) => a.cost)
     .reduce((prev, curr) => prev + curr);
   currentBudget.value -= factor;
+
+  activities
+    .filter((a) => doneActivities.map((a) => a.activity).includes(a.name))
+    .forEach((a) => (a.completed = true));
 }
 
 function getSleep() {
@@ -132,8 +140,11 @@ onMounted(() => {
           <template #content>
             <div class="is-flex is-align-items-center">
               <i class="is-size-5" :class="'ti ti-' + activity.icon"></i>
-              <p class="has-text-weight-bold is-flex-grow-1 ml-2">
+              <p class="has-text-weight-bold ml-2">
                 {{ activity.name }}
+              </p>
+              <p class="description has-text-grey is-flex-grow-1 ml-2">
+                ({{ activity.completed ? "Completed" : "Not completed" }})
               </p>
               <p class="description has-text-grey">
                 <span>Energy cost: </span>
