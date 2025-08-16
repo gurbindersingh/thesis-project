@@ -111,7 +111,7 @@ function showToast() {
     {
       summary: "High step count",
       detail:
-        "Your step count is 25% higher than average for this time of day.",
+        "Your step count is 25% higher than the average for this time of day.",
       severity: "contrast",
     },
   ];
@@ -124,12 +124,12 @@ onMounted(() => {
   getActivities();
   getSleep();
   getCrashing();
-  showToast();
+  setTimeout(() => showToast(), 1500);
 });
 </script>
 
 <template>
-  <div id="diagnostic-pacing" class="mt-6">
+  <div id="diagnostic" class="mt-6">
     <PToast />
     <div class="budget">
       <h1 class="title is-4">Your energy budget for today</h1>
