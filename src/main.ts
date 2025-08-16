@@ -19,9 +19,12 @@ import InputGroupAddon from "primevue/inputgroupaddon";
 import Message from "primevue/message";
 import Knob from "primevue/knob";
 import Chart from "primevue/chart";
+import Toast from "primevue/toast";
+import ToastService from "primevue/toastservice";
 
 const app = createApp(App);
 app.use(router);
+app.use(ToastService);
 
 app.use(PrimeVue, { theme: { preset: Aura } });
 app.component("PButton", Button);
@@ -38,5 +41,6 @@ app.component("PInputGroupAddon", InputGroupAddon);
 app.component("PMessage", Message);
 app.component("PKnob", Knob);
 app.component("PChart", Chart);
+app.component("PToast", Toast);
 
 app.mount("#app");

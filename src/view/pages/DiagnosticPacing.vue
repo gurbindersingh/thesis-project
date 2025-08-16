@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useToast } from "primevue/usetoast";
 import { computed, onMounted, ref } from "vue";
 
+const toast = useToast();
 const budget = 16;
 const currentBudget = ref(budget);
 const boundedBudget = computed(() =>
@@ -83,24 +85,61 @@ function getSleep() {
   currentBudget.value -= factor;
 }
 
+function getCrashing() {
+  const json = localStorage.getItem("crashing");
+  if (!json) return;
+
+  const crashing: { crashing: boolean } = JSON.parse(json);
+  if (crashing.crashing) currentBudget.value = 0;
+}
+
+function showToast() {
+  const messages = [
+    {
+      summary: "Elevated heart rate detected",
+      detail:
+        "Your heart rate is higher than average. " +
+        "If you are exerting yourself, try to take a break if possible.",
+      severity: "contrast",
+    },
+    {
+      summary: "Update activities",
+      detail:
+        "Don't forget to check off the activities you have already completed!",
+      severity: "contrast",
+    },
+    {
+      summary: "High step count",
+      detail:
+        "Your step count is 25% higher than average for this time of day.",
+      severity: "contrast",
+    },
+  ];
+  const randomMessage = Math.floor(Math.random() * 3);
+  toast.add(messages[randomMessage]);
+}
+
 onMounted(() => {
   getSymptoms();
   getActivities();
   getSleep();
+  getCrashing();
+  showToast();
 });
 </script>
 
 <template>
   <div id="diagnostic-pacing" class="mt-6">
+    <PToast />
     <div class="budget">
       <h1 class="title is-4">Your energy budget for today</h1>
       <PKnob
+        class="energy"
         size="200"
         :min="0"
         :max="budget"
         :strokeWidth="10"
         :readonly="true"
-        :valueTemplate="`{value} / ${budget}`"
         v-model="boundedBudget"
       />
       <h2 class="subtitle is-5 mb-2" style="margin-top: -0.7rem">
@@ -160,9 +199,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style lang="css">
-.p-knob-text {
-  font-size: 1.2rem;
-}
-</style>
