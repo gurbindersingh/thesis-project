@@ -96,7 +96,7 @@ function getCrashing() {
 function showToast() {
   const messages = [
     {
-      summary: "Elevated heart rate detected",
+      summary: "Elevated heart rate",
       detail:
         "Your heart rate is higher than average. " +
         "If you are exerting yourself, try to take a break if possible.",
@@ -130,7 +130,7 @@ onMounted(() => {
 
 <template>
   <div id="diagnostic" class="mt-6">
-    <PToast />
+    <PToast position="top-center" />
     <div class="budget">
       <h1 class="title is-4">Your energy budget for today</h1>
       <PKnob
