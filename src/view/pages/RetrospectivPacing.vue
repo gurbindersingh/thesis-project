@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, useTemplateRef } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { chartData } from "./chart-data";
-import { Chart } from "chart.js";
 
 const impacts = [
   {
@@ -69,6 +68,27 @@ const selectOptions = [
 
 const compareSource = ref(selectOptions[2]);
 const compareWith = ref(selectOptions[3]);
+// https://www.chartjs.org/docs/latest/configuration/
+const currentChartConfig = computed(() => ({
+  type: "line",
+  options: {
+    aspectRatio: 1.6,
+    scales: {},
+  },
+  data: {
+    labels: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+    datasets: [
+      {
+        ...compareSource.value,
+        // yAxisID: "y",
+      },
+      {
+        ...compareWith.value,
+        //   yAxisID: "y1",
+      },
+    ],
+  },
+}));
 
 onMounted(() => {
   console.log(chartData);
@@ -116,7 +136,13 @@ onMounted(() => {
           v-model="compareWith"
         />
       </div>
-      <PChart />
+      <PChart
+        class="mt-4"
+        :type="currentChartConfig.type"
+        :options="currentChartConfig.options"
+        :data="currentChartConfig.data"
+        v-if="compareSource && compareWith"
+      />
     </div>
   </div>
 </template>
