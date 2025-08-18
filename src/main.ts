@@ -21,6 +21,7 @@ import Knob from "primevue/knob";
 import Chart from "primevue/chart";
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
+import Select from "primevue/select";
 
 const app = createApp(App);
 app.use(router);
@@ -42,5 +43,6 @@ app.component("PMessage", Message);
 app.component("PKnob", Knob);
 app.component("PChart", Chart);
 app.component("PToast", Toast);
+app.component("PSelect", Select);
 
 app.mount("#app");
