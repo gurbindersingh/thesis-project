@@ -47,7 +47,7 @@ const impacts = [
   },
 ];
 
-const selectOptions = [
+const compareOptions = [
   { label: "Energy level (average)", data: chartData.map((d) => d.energyAvg) },
   { label: "Energy level (morning)", data: chartData.map((d) => d.energyMax) },
   { label: "Energy level (evening)", data: chartData.map((d) => d.energyMin) },
@@ -59,32 +59,45 @@ const selectOptions = [
   { label: "Clean up", data: chartData.map((d) => d.cleanUp) },
   { label: "LDN", data: chartData.map((d) => d.ldn) },
   { label: "Antihistamine", data: chartData.map((d) => d.h1i) },
-  { label: "Vitamin B", data: chartData.map((d) => d.painMed) },
+  { label: "Vitamin B", data: chartData.map((d) => d.vitB) },
   { label: "Pain med", data: chartData.map((d) => d.painMed) },
   { label: "Brain fog", data: chartData.map((d) => d.brainFog) },
   { label: "Neck pain", data: chartData.map((d) => d.neckPain) },
   { label: "Heartburn", data: chartData.map((d) => d.heartBurn) },
 ];
+const dayOfTheWeek = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
-const compareSource = ref(selectOptions[2]);
-const compareWith = ref(selectOptions[3]);
+const compareSource = ref(compareOptions[2]);
+const compareWith = ref(compareOptions[3]);
+const compareWithOptions = computed(() =>
+  compareOptions.filter((o) => o.label !== compareSource.value.label),
+);
 // https://www.chartjs.org/docs/latest/configuration/
 const currentChartConfig = computed(() => ({
   type: "line",
   options: {
+    responsive: true,
+    stacked: false,
     aspectRatio: 1.6,
-    scales: {},
+    scales: {
+      yLeft: {
+        type: "linear",
+        display: true,
+        position: "left",
+      },
+    },
   },
   data: {
-    labels: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+    labels: dayOfTheWeek,
     datasets: [
       {
         ...compareSource.value,
-        // yAxisID: "y",
+        yAxisID: "yLeft",
       },
       {
+        type: "bar",
         ...compareWith.value,
-        //   yAxisID: "y1",
+        yAxisID: "yLeft",
       },
     ],
   },
@@ -119,10 +132,18 @@ onMounted(() => {
     <div class="chart mt-6">
       <h2 class="title is-5 has-text-grey mb-3">Chart</h2>
       <div class="is-flex is-align-items-center mb-2">
+        <label for="" style="min-width: 6rem">Show</label>
+        <PSelect
+          class="is-flex-grow-1"
+          :options="['Week', 'Month']"
+          defaultValue="Week"
+        />
+      </div>
+      <div class="is-flex is-align-items-center mb-2">
         <label for="" style="min-width: 6rem">Compare</label>
         <PSelect
           class="is-flex-grow-1"
-          :options="selectOptions"
+          :options="compareOptions"
           optionLabel="label"
           v-model="compareSource"
         />
@@ -131,7 +152,7 @@ onMounted(() => {
         <label for="" style="min-width: 6rem">With</label>
         <PSelect
           class="is-flex-grow-1"
-          :options="selectOptions"
+          :options="compareWithOptions"
           optionLabel="label"
           v-model="compareWith"
         />
