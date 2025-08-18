@@ -106,7 +106,6 @@ function deleteActivity(activity: {
 <template>
   <!-- TODO: Restructure the sections in Morning and Evening check-ins. -->
   <div id="today">
-    <h2 class="title is-4 has-text-primary">Today</h2>
     <div class="stats">
       <h3 class="subtitle is-6">Are you having a crash?</h3>
       <CrashCard />

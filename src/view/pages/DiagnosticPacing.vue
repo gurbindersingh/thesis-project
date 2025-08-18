@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useToast } from "primevue/usetoast";
 import { computed, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 
 const toast = useToast();
 const budget = 16;
@@ -124,14 +125,16 @@ onMounted(() => {
   getActivities();
   getSleep();
   getCrashing();
-  setTimeout(() => showToast(), 1500);
+  setTimeout(() => showToast(), 500);
 });
+
+const route = useRoute();
 </script>
 
 <template>
   <div id="diagnostic" class="mt-6">
-    <PToast position="top-center" />
-    <div class="budget">
+    <PToast position="top-center" v-if="route.path !== '/diagnostic'" />
+    <div class="budget" v-else>
       <h1 class="title is-4">Your energy budget for today</h1>
       <PKnob
         class="energy"
