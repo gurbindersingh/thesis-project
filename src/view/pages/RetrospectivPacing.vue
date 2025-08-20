@@ -84,6 +84,10 @@ const currentChartConfig = computed(() => ({
         type: "linear",
         display: true,
         position: "left",
+        grid: {
+          lineWidth: (context: { tick: { value: number } }) =>
+            context.tick.value === 0 ? 3 : 1,
+        },
       },
     },
   },
@@ -98,6 +102,8 @@ const currentChartConfig = computed(() => ({
         type: "bar",
         ...compareWith.value,
         yAxisID: "yLeft",
+        borderRadius: 5,
+        borderSkipped: false,
       },
     ],
   },
