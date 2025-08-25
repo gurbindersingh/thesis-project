@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { router } from "@/router";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import ActivityCard from "./ActivityCard.vue";
 import CrashCard from "./CrashCard.vue";
 import MedsCard from "./MedsCard.vue";
 import SleepCard from "./SleepCard.vue";
 import StepsCard from "./StepsCard.vue";
 import SymptomsCard from "./SymptomsCard.vue";
+import { useRoute } from "vue-router";
 
 const activities = ref([
   {
@@ -78,6 +79,15 @@ const symptoms = ref([
   },
 ]);
 
+const route = useRoute();
+
+const isModeMorning = computed(
+  () =>
+    !route.params.mode ||
+    (typeof route.params.mode === "string" &&
+      route.params.mode.endsWith("morning")),
+);
+
 function deleteSymptom(symptom: { symptom: string; isEditMode: boolean }) {
   symptoms.value.splice(symptoms.value.indexOf(symptom), 1);
 }
@@ -122,6 +132,32 @@ function deleteActivity(activity: {
         rounded
         fluid
         :onClick="() => router.push('/grip-strength')"
+      />
+    </div>
+    <div class="symptoms">
+      <h3 class="subtitle is-6">What symptoms do you have?</h3>
+      <template v-for="symptom in symptoms" :key="symptom.symptom">
+        <SymptomsCard
+          :symptom="symptom.symptom"
+          :is-edit-mode="symptom.isEditMode"
+          :onDelete="() => deleteSymptom(symptom)"
+        />
+      </template>
+      <PButton
+        class="has-text-primary"
+        label="Add symptom"
+        icon="ti ti-plus"
+        variant="outlined"
+        size="large"
+        rounded
+        fluid
+        :onClick="
+          () =>
+            symptoms.push({
+              symptom: '',
+              isEditMode: true,
+            })
+        "
       />
     </div>
 
@@ -190,32 +226,6 @@ function deleteActivity(activity: {
       />
     </div>
 
-    <div class="symptoms">
-      <h3 class="subtitle is-6">What symptoms do you have?</h3>
-      <template v-for="symptom in symptoms" :key="symptom.symptom">
-        <SymptomsCard
-          :symptom="symptom.symptom"
-          :is-edit-mode="symptom.isEditMode"
-          :onDelete="() => deleteSymptom(symptom)"
-        />
-      </template>
-      <PButton
-        class="has-text-primary"
-        label="Add symptom"
-        icon="ti ti-plus"
-        variant="outlined"
-        size="large"
-        rounded
-        fluid
-        :onClick="
-          () =>
-            symptoms.push({
-              symptom: '',
-              isEditMode: true,
-            })
-        "
-      />
-    </div>
     <PButton
       class="mt-5 has-background-primary"
       label="Calculate budget"

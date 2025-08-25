@@ -9,12 +9,21 @@ import NavigationPage from "./view/pages/NavigationPage.vue";
 
 const routes = [
   { path: "/", component: NavigationPage },
-  { path: "/check-in", component: CheckIn },
+  // Define mode to empty, or have either the value of 'morning' or 'evening'.
+  {
+    path: "/check-in/:mode(morning|evening)?",
+    component: CheckIn,
+    name: "check-in",
+  },
   { path: "/grip-strength", component: GripStrengthTest },
   { path: "/diagnostic", component: DiagnosticPacing },
   { path: "/realtime", component: DiagnosticPacing },
   { path: "/retrospective", component: RetrospectivPacing },
-  { path: "/:pathMatch(.*)*", component: NotFound },
+  // Define any other path to show NotFound page.
+  // The name of the parameter `:param` here is unimportent as we don't use it.
+  // It is only relevant if want to access the params using the router in our
+  // components.
+  { path: "/:anyOther(.*)*", component: NotFound },
 ];
 
 export const router = createRouter({
