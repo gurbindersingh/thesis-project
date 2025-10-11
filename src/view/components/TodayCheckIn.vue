@@ -124,14 +124,34 @@ function deleteActivity(activity: {
       <SleepCard />
       <h3 class="subtitle is-6">Check fatigue level</h3>
       <PButton
-        class="has-background-primary"
-        label="Measure hand grip strength"
+        class="has-background-primary mb-2"
+        label="Use hand grip strength"
         icon="ti ti-arrow-right"
         iconPos="right"
         size="large"
         rounded
         fluid
-        :onClick="() => router.push('/grip-strength')"
+        :onClick="() => {}"
+      />
+      <PButton
+        class="has-background-primary mb-2"
+        label="Use heart-rate variability"
+        icon="ti ti-arrow-right"
+        iconPos="right"
+        size="large"
+        rounded
+        fluid
+        :onClick="() => {}"
+      />
+      <PButton
+        class="has-background-primary"
+        label="Use psychomotor vigiliance task"
+        icon="ti ti-arrow-right"
+        iconPos="right"
+        size="large"
+        rounded
+        fluid
+        :onClick="() => {}"
       />
     </div>
     <div class="symptoms">
