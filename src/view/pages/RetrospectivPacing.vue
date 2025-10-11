@@ -11,7 +11,7 @@ const impacts = [
   },
   {
     icon: "shopping-cart",
-    label: "Acivity",
+    label: "Activity",
     factor: "Grocery Shopping.",
     percentage: 60,
   },
