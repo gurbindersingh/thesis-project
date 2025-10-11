@@ -116,6 +116,7 @@ function deleteActivity(activity: {
 <template>
   <div id="today">
     <div class="stats">
+      <h2 class="title is-4">Morning check-in</h2>
       <h3 class="subtitle is-6">Are you having a crash?</h3>
       <CrashCard />
       <h3 class="subtitle is-6">Total steps</h3>
@@ -154,7 +155,10 @@ function deleteActivity(activity: {
         :onClick="() => {}"
       />
     </div>
+    <br />
+    <br />
     <div class="symptoms">
+      <h2 class="title is-4">Symptoms</h2>
       <h3 class="subtitle is-6">What symptoms do you have?</h3>
       <template v-for="symptom in symptoms" :key="symptom.symptom">
         <SymptomsCard
@@ -180,8 +184,11 @@ function deleteActivity(activity: {
         "
       />
     </div>
+    <br />
+    <br />
 
     <div class="meds">
+      <h2 class="title is-4">Meds and supplements</h2>
       <h3 class="subtitle is-6">What meds/supplements did you take?</h3>
       <template v-for="med in meds" :key="med.name">
         <MedsCard
@@ -213,7 +220,11 @@ function deleteActivity(activity: {
         "
       />
     </div>
+    <br />
+    <br />
+
     <div class="activities">
+      <h2 class="title is-4">Activities</h2>
       <h3 class="subtitle is-6">Did you complete these activities?</h3>
       <template v-for="activity in activities" :key="activity.activity">
         <ActivityCard
