@@ -5,12 +5,12 @@ import vue from "@vitejs/plugin-vue";
 import vueDevTools from "vite-plugin-vue-devtools";
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig((env) => ({
   plugins: [vue(), vueDevTools()],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-  base: "/thesis-project/",
-});
+  base: env.mode === "production" ? "/thesis-project/" : "/",
+}));
