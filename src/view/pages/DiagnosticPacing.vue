@@ -133,8 +133,7 @@ const route = useRoute();
 
 <template>
   <div id="diagnostic" class="mt-6">
-    <PToast position="top-center" v-if="route.path !== '/diagnostic'" />
-    <div class="budget" v-else>
+    <div class="budget" v-if="route.path === '/diagnostic'">
       <h1 class="title is-4">Your energy budget for today</h1>
       <PKnob
         class="energy"
@@ -199,6 +198,16 @@ const route = useRoute();
           </template>
         </PCard>
       </div>
+    </div>
+    <div v-else>
+      <PToast position="top-center" />
+      <p class="has-text-grey has-text-centered" style="margin-top: 30rem">
+        This page is supposed to show that the app may send push notifications
+        to alert the user to certain events.
+        <br />
+        <br />
+        (Reload the page to show a different message.)
+      </p>
     </div>
   </div>
 </template>
