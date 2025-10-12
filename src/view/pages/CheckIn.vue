@@ -12,7 +12,7 @@ const toggle = (event: Event) => {
 <template>
   <div id="check-in">
     <div>
-      <h1 class="title is-size-4 has-text-primary">
+      <h1 class="title is-size-3 has-text-primary">
         Daily Check-In
         <PButton
           class=""
