@@ -116,14 +116,18 @@ function deleteActivity(activity: {
 <template>
   <div id="today">
     <div class="stats">
-      <h2 class="title is-4">Morning check-in</h2>
-      <h3 class="subtitle is-6">Are you having a crash?</h3>
+      <h2 class="title is-4">Morning baseline</h2>
+      <h3 class="subtitle is-5">Are you having a crash?</h3>
       <CrashCard />
-      <h3 class="subtitle is-6">Total steps</h3>
+      <h3 class="subtitle is-5">Total steps</h3>
       <StepsCard />
-      <h3 class="subtitle is-6">How did you sleep last night?</h3>
+      <h3 class="subtitle is-5">How did you sleep last night?</h3>
       <SleepCard />
-      <h3 class="subtitle is-6">Check fatigue level</h3>
+      <h3 class="subtitle is-5">Check fatigue level</h3>
+      <PMessage class="my-3" severity="info"
+        >Please choose at least one of these options to measure your energy
+        level.</PMessage
+      >
       <PButton
         class="has-background-primary mb-2"
         label="Use hand grip strength"
@@ -159,7 +163,7 @@ function deleteActivity(activity: {
     <br />
     <div class="symptoms">
       <h2 class="title is-4">Symptoms</h2>
-      <h3 class="subtitle is-6">What symptoms do you have?</h3>
+      <h3 class="subtitle is-5">What symptoms do you have?</h3>
       <template v-for="symptom in symptoms" :key="symptom.symptom">
         <SymptomsCard
           :symptom="symptom.symptom"
@@ -189,7 +193,7 @@ function deleteActivity(activity: {
 
     <div class="meds">
       <h2 class="title is-4">Meds and supplements</h2>
-      <h3 class="subtitle is-6">What meds/supplements did you take?</h3>
+      <h3 class="subtitle is-5">What meds/supplements did you take?</h3>
       <template v-for="med in meds" :key="med.name">
         <MedsCard
           :med="med.name"
@@ -225,7 +229,7 @@ function deleteActivity(activity: {
 
     <div class="activities">
       <h2 class="title is-4">Activities</h2>
-      <h3 class="subtitle is-6">Did you complete these activities?</h3>
+      <h3 class="subtitle is-5">Did you complete these activities?</h3>
       <template v-for="activity in activities" :key="activity.activity">
         <ActivityCard
           :activity="activity.activity"
