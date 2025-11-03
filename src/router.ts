@@ -11,7 +11,7 @@ const routes = [
   { path: "/", component: NavigationPage },
   // Define mode to empty, or have either the value of 'morning' or 'evening'.
   {
-    path: "/check-in/:mode(morning|evening)?",
+    path: "/check-in",
     component: CheckIn,
     name: "check-in",
   },
