@@ -79,12 +79,6 @@ const symptoms = ref([
   },
 ]);
 
-const breadcrumbs = [
-  { label: "Morning baseline" },
-  { label: "Symptoms" },
-  { label: "Meds and Supplements" },
-  { label: "Activities" },
-];
 const route = useRoute();
 
 const multiPageView = computed(() => route.query.view === "multi-page");
@@ -94,10 +88,6 @@ const currentPageNr = computed(() =>
     ? parseInt(route.query.page) - 1
     : -1,
 );
-
-// const isModeMorning = computed(
-//   () => !route.query.mode && route.query.mode === "morning",
-// );
 
 function deleteSymptom(symptom: { symptom: string; isEditMode: boolean }) {
   symptoms.value.splice(symptoms.value.indexOf(symptom), 1);
@@ -127,7 +117,7 @@ function deleteActivity(activity: {
 <template>
   <div id="today">
     <div id="multi-page-view" v-if="multiPageView">
-      <div class="page-indicator my-5">
+      <div class="page-indicator mb-6">
         <span
           :class="{ active: currentPageNr === 0 }"
           class="indicator"
@@ -289,31 +279,6 @@ function deleteActivity(activity: {
           "
         />
       </div>
-
-      <PButton
-        class="mt-5 has-background-primary"
-        label="Calculate budget"
-        size="large"
-        fluid
-        rounded
-        :onClick="() => router.push('/diagnostic')"
-        v-if="currentPageNr === 3"
-      />
-      <PButton
-        class="mt-5"
-        label="Next"
-        size="large"
-        severity="secondary"
-        fluid
-        rounded
-        :onClick="
-          () =>
-            router.push({
-              query: { ...route.query, page: `${currentPageNr + 2}` },
-            })
-        "
-        v-if="currentPageNr !== 3"
-      />
     </div>
     <div id="one-page-view" v-else>
       <div class="stats">

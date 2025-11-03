@@ -13,7 +13,7 @@ const toggle = (event: Event) => {
 </script>
 
 <template>
-  <div id="check-in">
+  <div id="check-in" class="is-flex-grow-1 is-flex is-flex-direction-column">
     <div class="is-flex mb-5">
       <h1 class="title is-size-3 has-text-primary mb-0">Daily Check-In</h1>
       <button
@@ -63,5 +63,39 @@ const toggle = (event: Event) => {
       />
     </div>
     <TodayCheckIn />
+    <div class="spacer is-flex-grow-1"></div>
+    <PButton
+      class="mt-5"
+      label="Next"
+      size="large"
+      severity="secondary"
+      fluid
+      rounded
+      :onClick="
+        () =>
+          router.push({
+            query: {
+              ...route.query,
+              page: `${(typeof route.query.page === 'string' ? parseInt(route.query.page) : 0) + 1}`,
+            },
+          })
+      "
+      v-if="
+        route.query.view === 'multi-page' &&
+        typeof route.query.page === 'string' &&
+        parseInt(route.query.page) <= 3
+      "
+    />
+    <PButton
+      class="mt-5 has-background-primary"
+      label="Calculate budget"
+      size="large"
+      fluid
+      rounded
+      :onClick="() => router.push('/diagnostic')"
+      v-else-if="route.query.view === 'multi-page'"
+    />
   </div>
 </template>
+
+<style lang="css"></style>

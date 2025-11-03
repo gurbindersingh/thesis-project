@@ -54,3 +54,7 @@ is-6,
 is-size-6 {
   letter-spacing: 0.015rem;
 }
+
+#app {
+  min-height: 100vh;
+}
