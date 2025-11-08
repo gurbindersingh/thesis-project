@@ -162,7 +162,7 @@ watch(
             <span class="dose">({{ dose }})</span>
           </p>
           <PButton
-            class="p-0"
+            class="p-0 ml-1"
             variant="text"
             icon="ti ti-settings"
             severity="secondary"
@@ -180,6 +180,14 @@ watch(
               :class="'ti-' + time.icon"
             ></i>
             <p class="time is-flex-grow-1">{{ time.label }}</p>
+            <PButton
+              class="mr-1"
+              :icon="
+                'ti ' + (Math.random() < 0.5 ? 'ti-alarm' : 'ti-alarm-filled')
+              "
+              variant="text"
+              severity="contrast"
+            />
             <PSelectButton
               class="done-selector"
               v-model="time.taken"
