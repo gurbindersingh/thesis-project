@@ -22,6 +22,8 @@ import Chart from "primevue/chart";
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
 import Select from "primevue/select";
+import Checkbox from "primevue/checkbox";
+import CheckboxGroup from "primevue/checkboxgroup";
 
 const app = createApp(App);
 app.use(router);
@@ -44,5 +46,7 @@ app.component("PKnob", Knob);
 app.component("PChart", Chart);
 app.component("PToast", Toast);
 app.component("PSelect", Select);
+app.component("PCheckbox", Checkbox);
+app.component("PCheckboxGroup", CheckboxGroup);
 
 app.mount("#app");

@@ -136,6 +136,7 @@ watch(
             :onClick="onDelete"
           />
         </div>
+        <p class="has-text-weight-medium mb-2">When do you need to take it?</p>
         <PSelectButton
           class="time-selector mb-4"
           v-model="selectedTimes"
@@ -145,6 +146,29 @@ watch(
           fluid
         >
         </PSelectButton>
+        <p class="has-text-weight-medium mb-2">Reminders</p>
+        <div class="reminder-group mb-4">
+          <div class="reminder is-flex is-align-items-center mb-2">
+            <PCheckbox binary /><label class="ml-2">Morning</label>
+            <div class="spacer is-flex-grow-1"></div>
+            <PDatePicker class="datepicker-timeonly" timeOnly fluid />
+          </div>
+          <div class="reminder is-flex is-align-items-center mb-2">
+            <PCheckbox binary /><label class="ml-2">Noon </label>
+            <div class="spacer is-flex-grow-1"></div>
+            <PDatePicker class="datepicker-timeonly" timeOnly fluid />
+          </div>
+          <div class="reminder is-flex is-align-items-center mb-2">
+            <PCheckbox binary /><label class="ml-2">Evening</label>
+            <div class="spacer is-flex-grow-1"></div>
+            <PDatePicker class="datepicker-timeonly" timeOnly fluid />
+          </div>
+          <div class="reminder is-flex is-align-items-center mb-2">
+            <PCheckbox binary /><label class="ml-2">Night </label>
+            <div class="spacer is-flex-grow-1"></div>
+            <PDatePicker class="datepicker-timeonly" timeOnly fluid />
+          </div>
+        </div>
         <PButton
           label="Save"
           severity="secondary"
@@ -181,12 +205,12 @@ watch(
             ></i>
             <p class="time is-flex-grow-1">{{ time.label }}</p>
             <PButton
-              class="mr-1"
-              :icon="
-                'ti ' + (Math.random() < 0.5 ? 'ti-alarm' : 'ti-alarm-filled')
-              "
+              class="mr-1 p-0"
+              icon="ti ti-alarm-filled"
               variant="text"
               severity="contrast"
+              size="large"
+              v-if="Math.random() < 0.5"
             />
             <PSelectButton
               class="done-selector"
