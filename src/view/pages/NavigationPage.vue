@@ -9,7 +9,7 @@
       <router-link to="/realtime">Realtime</router-link>
       <br />
       <br />
-      <router-link to="/retrospective">Retrospective</router-link>
+      <router-link to="/preventative">Preventative</router-link>
     </nav>
   </div>
 </template>

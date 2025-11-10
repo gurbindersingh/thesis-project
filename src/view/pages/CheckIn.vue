@@ -24,6 +24,15 @@ const toggle = (event: Event) => {
       >
         <i class="ti ti-settings"></i>
       </button>
+      <div class="spacer is-flex-grow-1"></div>
+      <button
+        class="has-text-primary ml-4 mr-2 mt-1"
+        aria-haspopup="true"
+        aria-controls="overlay_menu"
+      >
+        <i class="ti ti-microphone"></i>
+      </button>
+
       <PMenu
         ref="menu"
         id="overlay_menu"

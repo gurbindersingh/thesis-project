@@ -3,7 +3,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import CheckIn from "./view/pages/CheckIn.vue";
 import GripStrengthTest from "./view/pages/GripStrengthTest.vue";
 import DiagnosticPacing from "./view/pages/DiagnosticPacing.vue";
-import RetrospectivPacing from "./view/pages/RetrospectivPacing.vue";
+import PreventativePacing from "./view/pages/PreventativePacing.vue";
 import NotFound from "./view/pages/NotFound.vue";
 import NavigationPage from "./view/pages/NavigationPage.vue";
 
@@ -18,7 +18,7 @@ const routes = [
   { path: "/grip-strength", component: GripStrengthTest },
   { path: "/diagnostic", component: DiagnosticPacing },
   { path: "/realtime", component: DiagnosticPacing },
-  { path: "/retrospective", component: RetrospectivPacing },
+  { path: "/preventative", component: PreventativePacing },
   // Define any other path to show NotFound page.
   // The name of the parameter `:param` here is unimportent as we don't use it.
   // It is only relevant if want to access the params using the router in our

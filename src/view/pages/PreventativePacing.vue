@@ -115,7 +115,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="retrospective">
+  <div id="preventative">
     <h1 class="title is-3 has-text-primary">Impacts</h1>
     <div class="impacts">
       <h2 class="title is-5 has-text-grey mb-3">
