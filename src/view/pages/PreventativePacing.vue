@@ -136,7 +136,9 @@ onMounted(() => {
       </PCard>
     </div>
     <div class="chart mt-6">
-      <h2 class="title is-5 has-text-grey mb-3">Chart</h2>
+      <h2 class="title is-5 has-text-grey mb-3">
+        Compare symptoms and factors
+      </h2>
       <div class="is-flex is-align-items-center mb-2">
         <label for="" style="min-width: 6rem">Show</label>
         <PSelect
