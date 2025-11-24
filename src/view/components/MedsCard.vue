@@ -136,7 +136,9 @@ watch(
             :onClick="onDelete"
           />
         </div>
-        <p class="has-text-weight-medium mb-2">When do you need to take it?</p>
+        <p class="has-text-weight-medium mb-2">
+          When do you need to take it (if taken daily)?
+        </p>
         <PSelectButton
           class="time-selector mb-4"
           v-model="selectedTimes"
