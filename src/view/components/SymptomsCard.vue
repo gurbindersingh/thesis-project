@@ -113,16 +113,9 @@ function search(event: { query: string }) {
             :onClick="onDelete"
             rounded
           />
-          <PButton
-            severity="secondary"
-            icon="ti ti-check"
-            rounded
-            :disabled="symptomIsEmpty"
-            :onClick="() => (isEditMode = false)"
-          />
         </div>
         <hr class="my-3" />
-        <div class="severity-descriptions">
+        <div class="severity-descriptions mb-4">
           <template v-for="severity in severityOptions" :key="severity.value">
             <p
               class="description my-2"
@@ -133,6 +126,13 @@ function search(event: { query: string }) {
             </p>
           </template>
         </div>
+        <PButton
+          label="Save"
+          severity="secondary"
+          rounded
+          fluid
+          :onClick="() => (isEditMode = false)"
+        />
       </div>
       <div class="show-mode is-flex is-align-items-center" v-else>
         <div>

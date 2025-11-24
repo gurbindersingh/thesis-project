@@ -132,7 +132,7 @@ watch(
           <PButton
             icon="ti ti-trash"
             variant="text"
-            severity="contrast"
+            severity="secondary"
             :onClick="onDelete"
           />
         </div>
