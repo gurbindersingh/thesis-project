@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "NODE_OPTIONS='--no-webstorage' vite",
-    "build": "run-p type-check \"build-only {@}\" --",
-    "preview": "vite preview",
+    "build": "NODE_OPTIONS='--no-webstorage' run-p type-check \"build-only {@}\" --",
+    "preview": "NODE_OPTIONS='--no-webstorage' vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
