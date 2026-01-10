@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// TODO: Use custom severity buttons if there is time.
 import { redToGreenSteps } from "@/services/color-steps";
 import { computed, ref, watch } from "vue";
 
@@ -104,6 +103,7 @@ watch(isDone, (activityDone) => {
           <PAutoComplete
             class="is-flex-grow-1"
             v-model="localActivity"
+            placeholder="Activity name"
             :emptySearchMessage="'Add new activity: ' + localActivity"
             :suggestions="filteredSuggestions"
             :invalid="activityIsEmpty"
@@ -119,6 +119,7 @@ watch(isDone, (activityDone) => {
           />
         </div>
 
+        <p class="has-text-weight-medium mb-1" for="">Impact on energy level</p>
         <p
           class="description mb-2"
           :style="{
