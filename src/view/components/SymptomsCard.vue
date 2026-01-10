@@ -155,7 +155,7 @@ function search(event: { query: string }) {
         </div>
         <PButton
           variant="text"
-          icon="ti ti-settings"
+          icon="ti ti-pencil"
           severity="secondary"
           size="large"
           :onClick="() => (isEditMode = true)"

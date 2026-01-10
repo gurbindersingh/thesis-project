@@ -190,7 +190,7 @@ watch(
           <PButton
             class="p-0 ml-1"
             variant="text"
-            icon="ti ti-settings"
+            icon="ti ti-pencil"
             severity="secondary"
             size="large"
             :onClick="() => (isEditMode = true)"
