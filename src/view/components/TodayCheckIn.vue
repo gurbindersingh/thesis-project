@@ -145,7 +145,7 @@ function deleteActivity(activity: {
         <CrashCard />
         <h3 class="subtitle is-5">How did you sleep last night?</h3>
         <SleepCard />
-        <h3 class="subtitle is-5">Total steps</h3>
+        <h3 class="subtitle is-5">Total steps so far</h3>
         <StepsCard />
         <h3 class="subtitle is-5">Check fatigue level</h3>
         <PMessage class="my-3" severity="info"
@@ -287,7 +287,7 @@ function deleteActivity(activity: {
         <CrashCard />
         <h3 class="subtitle is-5">How did you sleep last night?</h3>
         <SleepCard />
-        <h3 class="subtitle is-5">Total steps</h3>
+        <h3 class="subtitle is-5">Total steps so far</h3>
         <StepsCard />
         <h3 class="subtitle is-5">Check fatigue level</h3>
         <PMessage class="my-3" severity="info"
