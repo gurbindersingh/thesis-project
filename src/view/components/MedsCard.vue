@@ -129,12 +129,6 @@ watch(
             placeholder="Dose"
             style="width: 40%"
           />
-          <PButton
-            icon="ti ti-trash"
-            variant="text"
-            severity="secondary"
-            :onClick="onDelete"
-          />
         </div>
         <p class="has-text-weight-medium mb-2">
           When do you need to take it (if taken daily)?
@@ -171,14 +165,26 @@ watch(
             <PDatePicker class="datepicker-timeonly" timeOnly fluid />
           </div>
         </div>
-        <PButton
-          label="Save"
-          severity="secondary"
-          rounded
-          fluid
-          :disabled="!medName || !dose"
-          :onClick="() => (isEditMode = false)"
-        />
+        <div class="is-flex">
+          <PButton
+            label="Delete"
+            severity="danger"
+            variant="outlined"
+            icon="ti ti-trash"
+            :onClick="onDelete"
+            fluid
+            rounded
+          />
+          <div class="spacer mx-2"></div>
+          <PButton
+            label="Save"
+            severity="secondary"
+            rounded
+            fluid
+            :disabled="!medName || !dose"
+            :onClick="() => (isEditMode = false)"
+          />
+        </div>
       </div>
 
       <div class="show-mode" v-else>

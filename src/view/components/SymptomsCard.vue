@@ -106,13 +106,6 @@ function search(event: { query: string }) {
             fluid
             @complete="search"
           />
-          <PButton
-            severity="secondary"
-            variant="text"
-            icon="ti ti-trash"
-            :onClick="onDelete"
-            rounded
-          />
         </div>
         <div class="mb-2">
           <div class="mb-2">
@@ -146,13 +139,25 @@ function search(event: { query: string }) {
             </p>
           </template>
         </div>
-        <PButton
-          label="Save"
-          severity="secondary"
-          rounded
-          fluid
-          :onClick="() => (isEditMode = false)"
-        />
+        <div class="is-flex">
+          <PButton
+            label="Delete"
+            severity="danger"
+            variant="outlined"
+            icon="ti ti-trash"
+            :onClick="onDelete"
+            fluid
+            rounded
+          />
+          <div class="spacer mx-2"></div>
+          <PButton
+            label="Save"
+            severity="secondary"
+            rounded
+            fluid
+            :onClick="() => (isEditMode = false)"
+          />
+        </div>
       </div>
       <div class="show-mode is-flex is-align-items-center" v-else>
         <div>
