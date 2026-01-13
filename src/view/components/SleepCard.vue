@@ -5,19 +5,22 @@ import { ref, watch } from "vue";
 const sleepScoreOptions: Array<{ score: number; description: string }> = [
   {
     score: 1,
-    description: "Awful. Got little to no sleep.",
+    description: "Woke up 6+ times or was awake for 60+ minutes.",
   },
   {
     score: 2,
-    description: "Bad. I got less than 6 hours of uninterrupted sleep.",
+    description:
+      "I woke up 4-5 times, or was awake for up to 60 minutes in total.",
   },
   {
     score: 3,
-    description: "Decent. I got at least 6 hours of uninterrupted sleep.",
+    description:
+      "I woke up 2-3 times or was awake for less than 30 minutes in total.",
   },
   {
     score: 4,
-    description: "Good. I got at least 8 hours of uninterrupted sleep.",
+    description:
+      "I woke up no more than once and fell back asleep within 15 minutes.",
   },
 ];
 const colorValues = redToGreenSteps(4);
