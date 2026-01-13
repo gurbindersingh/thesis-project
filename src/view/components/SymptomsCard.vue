@@ -114,8 +114,28 @@ function search(event: { query: string }) {
             rounded
           />
         </div>
+        <div class="mb-2">
+          <div class="mb-2">
+            <p class="mb-2 has-text-weight-medium">
+              When did you experience this symptom?
+            </p>
+            <div class="spacer is-flex-grow-1"></div>
+            <PDatePicker
+              class="datepicker-timeonly"
+              :modelValue="timestamp"
+              showTime
+              showButtonBar
+              fluid
+            />
+          </div>
+        </div>
+        <div>
+          <PCheckbox binary />
+          <label class="ml-2">Show symptom every day until I delete it </label>
+        </div>
         <hr class="my-3" />
         <div class="severity-descriptions mb-4">
+          <p class="has-text-weight-medium">Severity descriptions</p>
           <template v-for="severity in severityOptions" :key="severity.value">
             <p
               class="description my-2"
