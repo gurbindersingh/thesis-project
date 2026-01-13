@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { redToGreenSteps } from "@/services/color-steps";
 import { ref, watch } from "vue";
 
 const sleepScoreOptions: Array<{ score: number; description: string }> = [
@@ -23,7 +22,6 @@ const sleepScoreOptions: Array<{ score: number; description: string }> = [
       "I woke up no more than once and fell back asleep within 15 minutes.",
   },
 ];
-const colorValues = redToGreenSteps(4);
 
 const isEditMode = ref(false);
 const sleepTime = ref("07:23");
