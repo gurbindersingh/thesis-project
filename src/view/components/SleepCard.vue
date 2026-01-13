@@ -4,7 +4,7 @@ import { ref, watch } from "vue";
 const sleepScoreOptions: Array<{ score: number; description: string }> = [
   {
     score: 1,
-    description: "Woke up 6+ times, or was awake for 60+ minutes.",
+    description: "Woke up 6+ times, or was awake for 60+ minutes in total.",
   },
   {
     score: 2,
