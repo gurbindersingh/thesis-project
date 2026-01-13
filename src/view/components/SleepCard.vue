@@ -5,7 +5,7 @@ import { ref, watch } from "vue";
 const sleepScoreOptions: Array<{ score: number; description: string }> = [
   {
     score: 1,
-    description: "Woke up 6+ times or was awake for 60+ minutes.",
+    description: "Woke up 6+ times, or was awake for 60+ minutes.",
   },
   {
     score: 2,
@@ -15,7 +15,7 @@ const sleepScoreOptions: Array<{ score: number; description: string }> = [
   {
     score: 3,
     description:
-      "I woke up 2-3 times or was awake for less than 30 minutes in total.",
+      "I woke up 2-3 times, or was awake for less than 30 minutes in total.",
   },
   {
     score: 4,
@@ -73,13 +73,7 @@ watch(selectedScore, (newValue) =>
           optionLabel="score"
         />
       </div>
-      <p
-        class="description mt-2"
-        :style="{
-          color: colorValues[selectedScore ? selectedScore.score - 1 : 0].css,
-        }"
-        v-if="selectedScore"
-      >
+      <p class="description mt-2" v-if="selectedScore">
         {{ selectedScore?.description }}
       </p>
     </template>
