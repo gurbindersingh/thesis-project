@@ -115,7 +115,7 @@ function search(event: { query: string }) {
             <div class="spacer is-flex-grow-1"></div>
             <PDatePicker
               class="datepicker-timeonly"
-              :modelValue="timestamp"
+              v-model="timestamp"
               showTime
               showButtonBar
               fluid
