@@ -111,12 +111,6 @@ watch(isDone, (activityDone) => {
             fluid
             @complete="search"
           />
-          <PButton
-            icon="ti ti-trash"
-            variant="text"
-            severity="contrast"
-            :onClick="onDelete"
-          />
         </div>
 
         <p class="has-text-weight-medium mb-1" for="">Impact on energy level</p>
@@ -138,14 +132,27 @@ watch(isDone, (activityDone) => {
           :allowEmpty="false"
           fluid
         />
-        <PButton
-          label="Save"
-          severity="secondary"
-          fluid
-          rounded
-          :disabled="activityIsEmpty"
-          :onClick="() => (isEditMode = false)"
-        />
+        <div class="is-flex mt-2">
+          <PButton
+            label="Delete"
+            severity="secondary"
+            variant="outlined"
+            icon="ti ti-trash"
+            :onClick="onDelete"
+            fluid
+            rounded
+          />
+          <div class="spacer mx-2"></div>
+          <PButton
+            label="Save"
+            severity="secondary"
+            variant="outlined"
+            fluid
+            rounded
+            :disabled="activityIsEmpty"
+            :onClick="() => (isEditMode = false)"
+          />
+        </div>
       </div>
 
       <div class="check-mode is-flex is-align-items-center" v-else>
@@ -185,9 +192,6 @@ watch(isDone, (activityDone) => {
           />
         </div>
       </div>
-      <div
-        class="is-flex is-align-items-center is-justify-content-space-between"
-      ></div>
     </template>
   </PCard>
 </template>

@@ -429,7 +429,7 @@ function deleteActivity(activity: {
 
       <PButton
         class="mt-5 has-background-primary"
-        label="Calculate budget"
+        label="Calculate energy budget"
         size="large"
         fluid
         rounded

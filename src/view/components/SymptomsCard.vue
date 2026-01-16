@@ -122,27 +122,29 @@ function search(event: { query: string }) {
             />
           </div>
         </div>
-        <div>
+        <div class="mt-4">
           <PCheckbox binary />
-          <label class="ml-2">Show symptom every day until I delete it </label>
+          <label class="mt-4 ml-2"
+            >Show symptom every day until I delete it
+          </label>
         </div>
-        <hr class="my-3" />
-        <div class="severity-descriptions mb-4">
-          <p class="has-text-weight-medium">Severity descriptions</p>
-          <template v-for="severity in severityOptions" :key="severity.value">
-            <p
-              class="description my-2"
-              :style="{ color: colorValues[severity.value - 1].css }"
-            >
-              <span class="mr-2">Severity {{ severity.value }}:</span
-              ><span>{{ severity.description }}</span>
-            </p>
-          </template>
-        </div>
-        <div class="is-flex">
+        <!-- <hr class="my-3" /> -->
+        <!-- <div class="severity-descriptions mb-4"> -->
+        <!--   <p class="has-text-weight-medium">Severity descriptions</p> -->
+        <!--   <template v-for="severity in severityOptions" :key="severity.value"> -->
+        <!--     <p -->
+        <!--       class="description my-2" -->
+        <!--       :style="{ color: colorValues[severity.value - 1].css }" -->
+        <!--     > -->
+        <!--       <span class="mr-2">Severity {{ severity.value }}:</span -->
+        <!--       ><span>{{ severity.description }}</span> -->
+        <!--     </p> -->
+        <!--   </template> -->
+        <!-- </div> -->
+        <div class="is-flex mt-5">
           <PButton
             label="Delete"
-            severity="danger"
+            severity="secondary"
             variant="outlined"
             icon="ti ti-trash"
             :onClick="onDelete"
@@ -153,6 +155,7 @@ function search(event: { query: string }) {
           <PButton
             label="Save"
             severity="secondary"
+            variant="outlined"
             rounded
             fluid
             :onClick="() => (isEditMode = false)"
@@ -193,6 +196,12 @@ function search(event: { query: string }) {
           optionLabel="value"
         />
       </div>
+      <p
+        class="mt-2 severity description"
+        v-if="!isEditMode && selectedSeverity"
+      >
+        Severity: {{ selectedSeverity.description }}
+      </p>
     </template>
   </PCard>
 </template>

@@ -165,10 +165,10 @@ watch(
             <PDatePicker class="datepicker-timeonly" timeOnly fluid />
           </div>
         </div>
-        <div class="is-flex">
+        <div class="is-flex mt-5">
           <PButton
             label="Delete"
-            severity="danger"
+            severity="secondary"
             variant="outlined"
             icon="ti ti-trash"
             :onClick="onDelete"
@@ -179,6 +179,7 @@ watch(
           <PButton
             label="Save"
             severity="secondary"
+            variant="outlined"
             rounded
             fluid
             :disabled="!medName || !dose"

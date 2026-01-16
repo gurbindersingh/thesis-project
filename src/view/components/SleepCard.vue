@@ -72,7 +72,7 @@ watch(selectedScore, (newValue) =>
         />
       </div>
       <p class="description mt-2" v-if="selectedScore">
-        {{ selectedScore?.description }}
+        Quality: {{ selectedScore?.description }}
       </p>
     </template>
   </PCard>
