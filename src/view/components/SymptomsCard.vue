@@ -20,18 +20,29 @@ const severityOptions = [
   {
     value: 2,
     description:
-      "I am always aware of the symptoms but I can continue most activities.",
+      "I am constantly aware of my symptoms but they do not impact any activities.",
   },
   {
     value: 3,
-    description: "I cannot do many activities due to the symptoms.",
+    description: "I am unable to do some activities due to the symptoms.",
   },
   {
     value: 4,
-    description: "The symptoms are so severe that even talking is difficult.",
+    description:
+      "I am unable to do due a lot of the activities due to the symptoms.",
   },
   {
     value: 5,
+    description:
+      "I am unable to do most of the activities due to the symptoms.",
+  },
+  {
+    value: 6,
+    description:
+      "The symptoms are so severe that it is hard to think of anything else. Even talking and listening is difficult.",
+  },
+  {
+    value: 7,
     description:
       "I had to go to the emergency room to get help for my symptoms.",
   },
@@ -149,7 +160,7 @@ function search(event: { query: string }) {
           <PButton
             label="Delete"
             severity="secondary"
-            variant="outlined"
+            variant="text"
             icon="ti ti-trash"
             :onClick="onDelete"
             fluid
@@ -159,7 +170,6 @@ function search(event: { query: string }) {
           <PButton
             label="Save"
             severity="secondary"
-            variant="outlined"
             rounded
             fluid
             :onClick="() => (isEditMode = false)"

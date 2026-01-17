@@ -169,7 +169,7 @@ watch(
           <PButton
             label="Delete"
             severity="secondary"
-            variant="outlined"
+            variant="text"
             icon="ti ti-trash"
             :onClick="onDelete"
             fluid
@@ -179,7 +179,6 @@ watch(
           <PButton
             label="Save"
             severity="secondary"
-            variant="outlined"
             rounded
             fluid
             :disabled="!medName || !dose"

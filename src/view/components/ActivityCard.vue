@@ -136,7 +136,7 @@ watch(isDone, (activityDone) => {
           <PButton
             label="Delete"
             severity="secondary"
-            variant="outlined"
+            variant="text"
             icon="ti ti-trash"
             :onClick="onDelete"
             fluid
@@ -146,7 +146,6 @@ watch(isDone, (activityDone) => {
           <PButton
             label="Save"
             severity="secondary"
-            variant="outlined"
             fluid
             rounded
             :disabled="activityIsEmpty"
