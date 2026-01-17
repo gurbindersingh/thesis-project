@@ -145,7 +145,7 @@ const route = useRoute();
         v-model="boundedBudget"
       />
       <h2 class="subtitle is-5 mb-2" style="margin-top: -0.7rem">
-        Points left
+        Spoons left
       </h2>
       <p class="description has-text-grey mb-4">
         Last calculated:
