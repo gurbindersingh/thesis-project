@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { redToGreenSteps } from "@/services/color-steps";
 import { computed, ref, watch } from "vue";
 
 const props = defineProps<{
@@ -10,6 +9,10 @@ const props = defineProps<{
 }>();
 
 const severityOptions = [
+  {
+    value: 0,
+    description: "I have no symptoms.",
+  },
   {
     value: 1,
     description: "My symptoms are only noticable if I pay attention.",
@@ -34,12 +37,12 @@ const severityOptions = [
   },
 ];
 const allSuggestions = ["Headache", "Neck pain", "Backpain", "Brainfog"];
-const colorValues = redToGreenSteps(5).reverse();
+// const colorValues = redToGreenSteps(5).reverse();
 
 const isEditMode = ref(props.isEditMode);
 const symptom = ref(props.symptom ? props.symptom : "");
 const selectedSeverity = ref(
-  props.severity ? severityOptions[props.severity] : null,
+  props.severity ? severityOptions[props.severity] : severityOptions[0],
 );
 const timestamp = ref(null as Date | null);
 const filteredSuggestions = ref([] as string[]);
@@ -47,7 +50,8 @@ const filteredSuggestions = ref([] as string[]);
 const symptomIsEmpty = computed(() => symptom.value.trim().length < 1);
 
 watch(selectedSeverity, (newSeverity, oldSeverity) => {
-  if (!timestamp.value) timestamp.value = new Date();
+  // if (!timestamp.value)
+  timestamp.value = new Date();
 
   const json = localStorage.getItem("symptoms");
   const symptoms: Array<{
@@ -162,14 +166,24 @@ function search(event: { query: string }) {
           />
         </div>
       </div>
-      <div class="show-mode is-flex is-align-items-center" v-else>
-        <div>
-          <p
-            class="activity title has-text-weight-medium is-size-6 m-0"
-            style="min-width: 5rem"
-          >
-            {{ symptom }}
-          </p>
+      <div class="show-mode" v-else>
+        <div class="is-flex is-align-items-center">
+          <div>
+            <p
+              class="activity title has-text-weight-medium is-size-6 m-0"
+              style="min-width: 5rem"
+            >
+              {{ symptom }}
+            </p>
+          </div>
+          <PButton
+            variant="text"
+            icon="ti ti-pencil"
+            severity="secondary"
+            size="large"
+            :onClick="() => (isEditMode = true)"
+          />
+          <div class="spacer is-flex-grow-1"></div>
           <p class="description has-text-grey">
             {{
               timestamp
@@ -181,19 +195,13 @@ function search(event: { query: string }) {
             }}
           </p>
         </div>
-        <PButton
-          variant="text"
-          icon="ti ti-pencil"
-          severity="secondary"
-          size="large"
-          :onClick="() => (isEditMode = true)"
-        />
-        <div class="spacer is-flex-grow-1"></div>
         <PSelectButton
           class="severity-selector"
           v-model="selectedSeverity"
           :options="severityOptions"
+          :allowEmpty="false"
           optionLabel="value"
+          fluid
         />
       </div>
       <p
