@@ -168,7 +168,7 @@ watch(
         <div class="is-flex mt-5">
           <PButton
             label="Delete"
-            severity="secondary"
+            severity="contrast"
             variant="text"
             icon="ti ti-trash"
             :onClick="onDelete"
@@ -178,7 +178,8 @@ watch(
           <div class="spacer mx-2"></div>
           <PButton
             label="Save"
-            severity="secondary"
+            severity="contrast"
+            variant="outlined"
             rounded
             fluid
             :disabled="!medName || !dose"
