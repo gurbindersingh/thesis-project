@@ -90,7 +90,7 @@ watch(isDone, (activityDone) => {
 </script>
 
 <template>
-  <PCard class="activity-card">
+  <PCard class="activity-card mb-3">
     <template #content>
       <div class="edit-mode" v-if="isEditMode">
         <div class="is-flex mb-4">
@@ -135,7 +135,7 @@ watch(isDone, (activityDone) => {
         <div class="is-flex mt-2">
           <PButton
             label="Delete"
-            severity="contrast"
+            severity="secondary"
             variant="text"
             icon="ti ti-trash"
             :onClick="onDelete"
@@ -144,8 +144,9 @@ watch(isDone, (activityDone) => {
           />
           <div class="spacer mx-2"></div>
           <PButton
+            class="has-text-primary"
             label="Save"
-            severity="contrast"
+            severity="primary"
             variant="outlined"
             fluid
             rounded

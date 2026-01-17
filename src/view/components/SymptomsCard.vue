@@ -107,7 +107,7 @@ function search(event: { query: string }) {
 </script>
 
 <template>
-  <PCard class="symptoms-card">
+  <PCard class="symptoms-card mb-3">
     <template #content>
       <div class="edit-mode" v-if="isEditMode">
         <div class="is-flex mb-2 is-align-items-center">
@@ -159,7 +159,7 @@ function search(event: { query: string }) {
         <div class="is-flex mt-5">
           <PButton
             label="Delete"
-            severity="contrast"
+            severity="secondary"
             variant="text"
             icon="ti ti-trash"
             :onClick="onDelete"
@@ -168,8 +168,9 @@ function search(event: { query: string }) {
           />
           <div class="spacer mx-2"></div>
           <PButton
+            class="has-text-primary"
             label="Save"
-            severity="contrast"
+            severity="primary"
             variant="outlined"
             rounded
             fluid

@@ -74,10 +74,11 @@ const toggle = (event: Event) => {
     <TodayCheckIn />
     <div class="spacer is-flex-grow-1"></div>
     <PButton
-      class="mt-5"
+      class="mt-5 has-text-primary"
       label="Next"
       size="large"
-      severity="secondary"
+      severity="primary"
+      variant="outlined"
       fluid
       rounded
       :onClick="

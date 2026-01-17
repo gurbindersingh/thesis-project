@@ -198,7 +198,7 @@ function deleteActivity(activity: {
           class="has-text-primary"
           label="Add symptom"
           icon="ti ti-plus"
-          variant="outlined"
+          variant="text"
           size="large"
           rounded
           fluid
@@ -229,7 +229,7 @@ function deleteActivity(activity: {
           class="has-text-primary"
           label="Add med/supplement"
           icon="ti ti-plus"
-          variant="outlined"
+          variant="text"
           size="large"
           rounded
           fluid
@@ -262,7 +262,7 @@ function deleteActivity(activity: {
         <PButton
           class="has-text-primary"
           label="Add activity"
-          variant="outlined"
+          variant="text"
           icon="ti ti-plus"
           size="large"
           rounded
@@ -341,7 +341,7 @@ function deleteActivity(activity: {
           class="has-text-primary"
           label="Add symptom"
           icon="ti ti-plus"
-          variant="outlined"
+          variant="text"
           size="large"
           rounded
           fluid
@@ -374,7 +374,7 @@ function deleteActivity(activity: {
           class="has-text-primary"
           label="Add med/supplement"
           icon="ti ti-plus"
-          variant="outlined"
+          variant="text"
           size="large"
           rounded
           fluid
@@ -409,7 +409,7 @@ function deleteActivity(activity: {
         <PButton
           class="has-text-primary"
           label="Add activity"
-          variant="outlined"
+          variant="text"
           icon="ti ti-plus"
           size="large"
           rounded
