@@ -16,24 +16,28 @@ const timeOptions = [
     label: "Morning",
     icon: "sunrise",
     taken: props.taken[0] || false,
+    reminder: false,
   },
   {
     order: 1,
     label: "Noon",
     icon: "sun",
     taken: props.taken[1] || false,
+    reminder: false,
   },
   {
     order: 2,
     label: "Evening",
     icon: "sunset",
     taken: props.taken[2] || false,
+    reminder: false,
   },
   {
     order: 3,
     label: "Night",
     icon: "moon",
     taken: props.taken[3] || false,
+    reminder: false,
   },
 ];
 const autocompleteList = [
@@ -46,7 +50,6 @@ const autocompleteList = [
 ];
 
 const isEditMode = ref(props.isEditMode);
-
 const medName = ref(props.med);
 const dose = ref(props.dose);
 const filteredSuggestions = ref([] as string[]);
@@ -144,26 +147,20 @@ watch(
         </PSelectButton>
         <p class="has-text-weight-medium mb-2">Reminders</p>
         <div class="reminder-group mb-4">
-          <div class="reminder is-flex is-align-items-center mb-2">
-            <PCheckbox binary /><label class="ml-2">Morning</label>
-            <div class="spacer is-flex-grow-1"></div>
-            <PDatePicker class="datepicker-timeonly" timeOnly fluid />
-          </div>
-          <div class="reminder is-flex is-align-items-center mb-2">
-            <PCheckbox binary /><label class="ml-2">Noon </label>
-            <div class="spacer is-flex-grow-1"></div>
-            <PDatePicker class="datepicker-timeonly" timeOnly fluid />
-          </div>
-          <div class="reminder is-flex is-align-items-center mb-2">
-            <PCheckbox binary /><label class="ml-2">Evening</label>
-            <div class="spacer is-flex-grow-1"></div>
-            <PDatePicker class="datepicker-timeonly" timeOnly fluid />
-          </div>
-          <div class="reminder is-flex is-align-items-center mb-2">
-            <PCheckbox binary /><label class="ml-2">Night </label>
-            <div class="spacer is-flex-grow-1"></div>
-            <PDatePicker class="datepicker-timeonly" timeOnly fluid />
-          </div>
+          <template
+            v-for="time in timeOptions.filter((op) =>
+              selectedTimes.map((val) => val.label).includes(op.label),
+            )"
+            :key="time.label"
+          >
+            <div class="reminder is-flex is-align-items-center mb-2">
+              <PCheckbox v-model="time.reminder" binary /><label class="ml-2">{{
+                time.label
+              }}</label>
+              <div class="spacer is-flex-grow-1"></div>
+              <PDatePicker class="datepicker-timeonly" timeOnly fluid />
+            </div>
+          </template>
         </div>
         <div class="is-flex mt-5">
           <PButton
@@ -216,11 +213,11 @@ watch(
             <p class="time is-flex-grow-1">{{ time.label }}</p>
             <PButton
               class="mr-1 p-0"
-              icon="ti ti-alarm-filled"
+              icon="ti ti-alarm"
               variant="text"
               severity="contrast"
               size="large"
-              v-if="Math.random() < 0.5"
+              v-if="time.reminder"
             />
             <PSelectButton
               class="done-selector"
