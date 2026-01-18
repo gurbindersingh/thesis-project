@@ -154,9 +154,11 @@ watch(
             :key="time.label"
           >
             <div class="reminder is-flex is-align-items-center mb-2">
-              <PCheckbox v-model="time.reminder" binary /><label class="ml-2">{{
-                time.label
-              }}</label>
+              <PCheckbox v-model="time.reminder" binary />
+              <span class="ml-2">
+                <i :class="'ti ti-' + time.icon"></i
+                ><label class="ml-1">{{ time.label }}</label>
+              </span>
               <div class="spacer is-flex-grow-1"></div>
               <PDatePicker class="datepicker-timeonly" timeOnly fluid />
             </div>
